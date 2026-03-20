@@ -41,11 +41,9 @@ export default function Home() {
           <div className="flex flex-col gap-6 w-[628px]">
             <p
               className="text-[18px] font-light leading-7 text-white hero-animate"
-              style={{ animationDelay: "240ms" }}
+              style={{ animationDelay: "240ms", width: "274px" }}
             >
-              A ring for your prayer life. It captures what you speak, senses
-              how you are, and gently calls you back — every morning, every
-              evening, and in every quiet moment in between.
+              A prayer companion that keeps you close to God — every day.
             </p>
             <button
               className="flex items-center justify-center gap-2 h-11 px-4 rounded-full bg-[#141413] text-white text-base font-semibold w-[230px] hover:bg-[#2a2a28] transition-colors cursor-pointer hero-animate"
