@@ -88,6 +88,19 @@ export default function Home() {
       {/* ── Day in Life ───────────────────────────────────────────────────── */}
       <DayInLife />
 
+      {/* ── Quote ─────────────────────────────────────────────────────────── */}
+      <section className="flex items-center justify-center px-[64px] py-[120px]">
+        <p
+          className="text-[18px] font-light leading-[1.6] text-[#141413] text-center w-[610px]"
+          data-animate
+        >
+          Someday you'll look back and see the whole story.<br />
+          Not just what you asked for —<br />
+          but where God was,<br />
+          in all the ordinary days.
+        </p>
+      </section>
+
       {/* ── Scroll-driven Product Specs ───────────────────────────────────── */}
       <div id="specs">
         <ProductSpecs />
