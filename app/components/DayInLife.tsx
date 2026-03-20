@@ -135,7 +135,7 @@ type Card = {
 
 function AppCard({ card }: { card: Card }) {
   const base =
-    "rounded-2xl p-5 flex flex-col gap-2 bg-white/70 backdrop-blur-sm shadow-[0_2px_16px_rgba(0,0,0,0.06)] border border-black/[0.05]";
+    "rounded-2xl p-6 flex flex-col gap-3 bg-white/70 backdrop-blur-sm shadow-[0_2px_16px_rgba(0,0,0,0.06)] border border-black/[0.05]";
 
   if (card.type === "notification") {
     return (
@@ -230,29 +230,29 @@ export default function DayInLife() {
   const scene = SCENARIOS[active];
 
   return (
-    <section className="px-[64px] py-[120px] max-w-[1512px] mx-auto">
+    <section className="px-[64px] pt-[120px] pb-[160px] max-w-[1512px] mx-auto">
       {/* Header */}
-      <div className="mb-10" data-animate>
-        <h2 className="text-[48px] font-light leading-[1.05] text-[#141413]">
+      <div className="mb-14" data-animate>
+        <h2 className="text-[72px] font-light leading-[1.02] text-[#141413]">
           A Day with{" "}
           <em style={{ fontFamily: "var(--font-lora)", fontStyle: "italic" }}>Bless Ring</em>
         </h2>
       </div>
 
       {/* Tab bar — full width */}
-      <div className="flex border-b border-black/10 mb-8">
+      <div className="flex border-b border-black/10 mb-12">
         {SCENARIOS.map((s, i) => (
           <button
             key={s.label}
             onClick={() => setActive(i)}
-            className={`flex flex-col gap-0.5 pb-3 flex-1 text-center transition-colors duration-200 cursor-pointer ${
+            className={`flex flex-col gap-1 pb-5 flex-1 text-center transition-colors duration-200 cursor-pointer ${
               i === active ? "border-b-[1.5px] border-[#141413] -mb-px" : ""
             }`}
           >
-            <span className={`text-[11px] transition-colors duration-200 ${i === active ? "text-[#73726c]" : "text-[#73726c]/50"}`}>
+            <span className={`text-[13px] transition-colors duration-200 ${i === active ? "text-[#73726c]" : "text-[#73726c]/40"}`}>
               {s.time}
             </span>
-            <span className={`text-[14px] font-medium transition-colors duration-200 ${i === active ? "text-[#141413]" : "text-[#73726c]"}`}>
+            <span className={`text-[16px] font-medium transition-colors duration-200 ${i === active ? "text-[#141413]" : "text-[#73726c]"}`}>
               {s.label}
             </span>
           </button>
@@ -260,20 +260,20 @@ export default function DayInLife() {
       </div>
 
       {/* Content */}
-      <div className="flex gap-8 h-[420px]">
+      <div className="flex gap-10 h-[560px]">
         {/* Photo */}
-        <div className="relative w-[420px] shrink-0 rounded-2xl overflow-hidden">
+        <div className="relative w-[560px] shrink-0 rounded-2xl overflow-hidden">
           <Image
             src={scene.image}
             alt={scene.imageAlt}
             fill
             className="object-cover object-center transition-opacity duration-300"
-            sizes="420px"
+            sizes="560px"
           />
         </div>
 
         {/* Cards */}
-        <div className="flex flex-col justify-center gap-4 flex-1">
+        <div className="flex flex-col justify-center gap-5 flex-1">
           {scene.cards.map((card, i) => (
             <AppCard key={i} card={card} />
           ))}
