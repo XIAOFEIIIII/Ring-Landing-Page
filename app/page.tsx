@@ -80,12 +80,38 @@ export default function Home() {
       </section>
 
       {/* ── Scroll-driven Feature Sections ────────────────────────────────── */}
-      {/* Must be outside any overflow-hidden ancestor for sticky to work */}
-      <FeatureSections />
+      <div id="features">
+        <FeatureSections />
+      </div>
 
       {/* ── Scroll-driven Product Specs ───────────────────────────────────── */}
-      {/* Must be outside overflow-hidden for sticky to work */}
-      <ProductSpecs />
+      <div id="specs">
+        <ProductSpecs />
+      </div>
+
+      {/* ── Closing CTA ───────────────────────────────────────────────────── */}
+      <section className="flex flex-col items-center justify-center gap-12 px-[64px] pt-[160px] pb-[120px]">
+        <div className="flex flex-col items-center gap-5 text-center max-w-[640px]" data-animate>
+          <h2 className="text-[64px] font-light leading-[1.05] text-[#141413]">
+            Begin your{" "}
+            <em style={{ fontFamily: "var(--font-lora)", fontStyle: "italic" }}>
+              practice.
+            </em>
+          </h2>
+          <p className="text-[18px] font-light leading-[1.6] text-[#3d3d3a] max-w-[420px]">
+            Bless Ring ships early 2025. Reserve yours today and be among the first to wear it.
+          </p>
+        </div>
+
+        <div className="flex flex-col items-center gap-4" data-animate style={{ transitionDelay: "120ms" }}>
+          <button className="flex items-center justify-center h-[52px] px-8 rounded-full bg-[#141413] text-white text-[16px] font-semibold hover:bg-[#2a2a28] transition-colors cursor-pointer">
+            Preorder&nbsp;—&nbsp;$29
+          </button>
+          <p className="text-[13px] text-[#73726c] font-light">
+            Free shipping · 30-day return guarantee
+          </p>
+        </div>
+      </section>
 
     </main>
   );

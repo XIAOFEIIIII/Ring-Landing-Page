@@ -35,6 +35,30 @@ export default function Header() {
           Bless Ring
         </span>
 
+        {/* Nav anchors — visible after scrolling past hero */}
+        <nav
+          className={`flex items-center gap-8 transition-all duration-500 ${
+            pastHero ? "opacity-100" : "opacity-0 pointer-events-none"
+          }`}
+        >
+          <a
+            href="#features"
+            className={`text-[14px] font-medium transition-colors duration-300 hover:opacity-60 ${
+              scrolled ? "text-[#141413]" : "text-white"
+            }`}
+          >
+            Features
+          </a>
+          <a
+            href="#specs"
+            className={`text-[14px] font-medium transition-colors duration-300 hover:opacity-60 ${
+              scrolled ? "text-[#141413]" : "text-white"
+            }`}
+          >
+            Specs
+          </a>
+        </nav>
+
         {/* Preorder — only visible after scrolling past the hero */}
         <button
           className={`flex items-center justify-center h-[38px] px-5 rounded-full text-[14px] font-semibold bg-[#141413] text-white hover:bg-[#2a2a28] transition-all duration-500 cursor-pointer ${
