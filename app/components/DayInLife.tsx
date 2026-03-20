@@ -245,7 +245,7 @@ export default function DayInLife() {
           <button
             key={s.label}
             onClick={() => setActive(i)}
-            className={`flex flex-col gap-0.5 pb-3 flex-1 text-left transition-colors duration-200 cursor-pointer ${
+            className={`flex flex-col gap-0.5 pb-3 flex-1 text-center transition-colors duration-200 cursor-pointer ${
               i === active ? "border-b-[1.5px] border-[#141413] -mb-px" : ""
             }`}
           >
