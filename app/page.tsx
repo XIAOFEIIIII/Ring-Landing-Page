@@ -40,7 +40,7 @@ export default function Home() {
           {/* CTA block */}
           <div className="flex flex-col gap-6 w-[628px]">
             <p
-              className="text-[18px] font-light leading-7 text-white hero-animate"
+              className="text-[18px] font-light leading-[1.6] text-white hero-animate"
               style={{ animationDelay: "240ms", width: "274px" }}
             >
               A prayer companion that keeps you close to God — every day.
@@ -55,18 +55,27 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ── "Stay Close to God" ───────────────────────────────────────────── */}
-      <section className="flex flex-col items-center justify-center pt-[200px] pb-[160px] px-[64px]">
-        <div className="flex flex-col items-center" data-animate>
-          <h2 className="text-[72px] leading-[1.02] text-[#141413] font-light whitespace-nowrap">
-            Stay{" "}
-            <em style={{ fontFamily: "var(--font-lora)", fontStyle: "italic" }}>
-              Close to God
-            </em>
+      {/* ── Core Concept ──────────────────────────────────────────────────── */}
+      <section className="flex items-start justify-between px-[64px] py-[120px] max-w-[1512px] mx-auto w-full">
+        {/* Left — headline */}
+        <div className="flex flex-col w-[638px]" data-animate>
+          <h2 className="text-[72px] leading-[1.02] text-[#3d3d3a] font-light">
+            Ordinary Days,
           </h2>
-          <p className="text-[48px] leading-[1.02] text-[#3d3d3a] font-light whitespace-nowrap">
-            even in passing moments
-          </p>
+          <h2 className="text-[72px] leading-[1.02] text-[#3d3d3a] font-light text-right">
+            <em style={{ fontFamily: "var(--font-lora)", fontStyle: "italic" }}>Faithfully</em>{" "}Kept
+          </h2>
+        </div>
+
+        {/* Right — body copy */}
+        <div
+          className="text-[18px] leading-[1.6] text-[#141413] font-light w-[610px] flex flex-col gap-4"
+          data-animate
+          style={{ transitionDelay: "120ms" }}
+        >
+          <p>The spiritual life doesn't announce itself. It arrives in half-awake thoughts, in the car, in a quiet moment that passes before you can hold it.</p>
+          <p>Bless Ring was made for that gap — between feeling and forgetting.</p>
+          <p>A ring you wear. A practice you return to. A record of how God has been with you, all along.</p>
         </div>
       </section>
 

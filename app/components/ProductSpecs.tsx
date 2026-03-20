@@ -164,7 +164,7 @@ export default function ProductSpecs() {
             >
               <div className={`flex flex-col gap-0.5 w-[190px] ${isLeft ? "text-right" : "text-left"}`}>
                 <p className="text-[17px] font-medium text-[#141413] leading-tight">{spec.title}</p>
-                <p className="text-[13px] font-light text-[#73726c] leading-[1.4]">{spec.desc}</p>
+                <p className="text-[13px] font-light text-[#73726c] leading-[1.6]">{spec.desc}</p>
               </div>
             </div>
           );

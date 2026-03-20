@@ -108,7 +108,7 @@ export default function FeatureSections() {
             <p className="text-[24px] leading-normal text-[#141413]">
               {step.title}
             </p>
-            <p className="text-[16px] leading-[24px] text-[#141413] font-light whitespace-pre-line">
+            <p className="text-[16px] leading-[1.6] text-[#141413] font-light whitespace-pre-line">
               {step.description}
             </p>
           </div>
