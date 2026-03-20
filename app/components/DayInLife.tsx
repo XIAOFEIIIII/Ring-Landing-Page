@@ -233,20 +233,19 @@ export default function DayInLife() {
     <section className="px-[64px] py-[120px] max-w-[1512px] mx-auto">
       {/* Header */}
       <div className="mb-10" data-animate>
-        <p className="text-[13px] text-[#73726c] uppercase tracking-widest mb-3">A Day with Bless Ring</p>
         <h2 className="text-[48px] font-light leading-[1.05] text-[#141413]">
-          With you through{" "}
-          <em style={{ fontFamily: "var(--font-lora)", fontStyle: "italic" }}>every hour.</em>
+          A Day with{" "}
+          <em style={{ fontFamily: "var(--font-lora)", fontStyle: "italic" }}>Bless Ring</em>
         </h2>
       </div>
 
-      {/* Tab bar */}
-      <div className="flex gap-0 border-b border-black/10 mb-8">
+      {/* Tab bar — full width */}
+      <div className="flex border-b border-black/10 mb-8">
         {SCENARIOS.map((s, i) => (
           <button
             key={s.label}
             onClick={() => setActive(i)}
-            className={`flex flex-col gap-0.5 pb-3 pr-8 text-left transition-colors duration-200 cursor-pointer ${
+            className={`flex flex-col gap-0.5 pb-3 flex-1 text-left transition-colors duration-200 cursor-pointer ${
               i === active ? "border-b-[1.5px] border-[#141413] -mb-px" : ""
             }`}
           >
