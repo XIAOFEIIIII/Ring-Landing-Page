@@ -7,7 +7,7 @@ const SCENARIOS = [
   {
     time: "6:30 AM",
     label: "Morning Prayer",
-    image: "/images/feature-becalled.jpg",
+    image: "/images/A day with bless ring/morning.jpg",
     imageAlt: "Morning light, hands at rest",
     cards: [
       {
@@ -29,7 +29,7 @@ const SCENARIOS = [
   {
     time: "10:00 AM",
     label: "Bible Study",
-    image: "/images/feature-capture.jpg",
+    image: "/images/A day with bless ring/sermon.jpg",
     imageAlt: "Open Bible, taking notes",
     cards: [
       {
@@ -53,7 +53,7 @@ const SCENARIOS = [
   {
     time: "2:00 PM",
     label: "Mood Check",
-    image: "/images/feature-beseen.jpg",
+    image: "/images/A day with bless ring/mood check.jpg",
     imageAlt: "Quiet afternoon moment",
     cards: [
       {
@@ -74,7 +74,7 @@ const SCENARIOS = [
   {
     time: "8:00 PM",
     label: "Journal",
-    image: "/images/feature-becalled.jpg",
+    image: "/images/A day with bless ring/journal.jpg",
     imageAlt: "Evening, candlelight, journaling",
     cards: [
       {
@@ -98,7 +98,7 @@ const SCENARIOS = [
   {
     time: "9:30 PM",
     label: "Devotional",
-    image: "/images/feature-beseen.jpg",
+    image: "/images/A day with bless ring/evening.jpg",
     imageAlt: "Dim lamp, quiet evening",
     cards: [
       {
