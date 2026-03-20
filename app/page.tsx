@@ -1,5 +1,6 @@
 import Image from "next/image";
 import FeatureSections from "./components/FeatureSections";
+import DayInLife from "./components/DayInLife";
 import ProductSpecs from "./components/ProductSpecs";
 
 // ─── Page ─────────────────────────────────────────────────────────────────────
@@ -83,6 +84,9 @@ export default function Home() {
       <div id="features">
         <FeatureSections />
       </div>
+
+      {/* ── Day in Life ───────────────────────────────────────────────────── */}
+      <DayInLife />
 
       {/* ── Scroll-driven Product Specs ───────────────────────────────────── */}
       <div id="specs">
