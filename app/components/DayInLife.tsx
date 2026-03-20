@@ -6,7 +6,7 @@ import Image from "next/image";
 const SCENARIOS = [
   {
     time: "6:47 AM",
-    label: "Capture",
+    label: "Before the day begins",
     image: "/images/A day with bless ring/morning.jpg",
     imageAlt: "Half-awake, a thought forming",
     cards: [
@@ -30,7 +30,7 @@ const SCENARIOS = [
   },
   {
     time: "9:15 AM",
-    label: "Pause",
+    label: "A pause you didn't plan",
     image: "/images/A day with bless ring/mood check.jpg",
     imageAlt: "A quiet moment mid-morning",
     cards: [
@@ -51,7 +51,7 @@ const SCENARIOS = [
   },
   {
     time: "12:30 PM",
-    label: "Reflect",
+    label: "Reading yourself back",
     image: "/images/A day with bless ring/journal.jpg",
     imageAlt: "Lunch alone, reading the app",
     cards: [
@@ -75,7 +75,7 @@ const SCENARIOS = [
   },
   {
     time: "7:00 PM",
-    label: "Bible Study",
+    label: "Fully present",
     image: "/images/A day with bless ring/sermon.jpg",
     imageAlt: "Bible study, fully present",
     cards: [
@@ -99,7 +99,7 @@ const SCENARIOS = [
   },
   {
     time: "10:22 PM",
-    label: "Evening Prayer",
+    label: "The day comes full circle",
     image: "/images/A day with bless ring/evening.jpg",
     imageAlt: "Evening prayer, hands folded",
     cards: [
