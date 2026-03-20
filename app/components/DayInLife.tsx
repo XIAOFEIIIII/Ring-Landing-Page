@@ -235,7 +235,7 @@ export default function DayInLife() {
   return (
     <section className="px-[64px] pt-[120px] pb-[160px] max-w-[1512px] mx-auto">
       {/* Header */}
-      <div className="mb-14" data-animate>
+      <div className="mb-24" data-animate>
         <h2 className="text-[72px] font-light leading-[1.02] text-[#141413]">
           A Day with{" "}
           <em style={{ fontFamily: "var(--font-lora)", fontStyle: "italic" }}>Bless Ring</em>
