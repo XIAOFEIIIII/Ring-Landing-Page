@@ -4,12 +4,12 @@ import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 
 const SPECS = [
-  { title: "Private Mic",        desc: "Capture at whisper level. Can keep recording for up to 40 mins",                                                    side: "left"  },
-  { title: "Light Vibrations",   desc: "With multiple patterns customizable",                                                                                side: "left"  },
-  { title: "Sensors",            desc: "PPG measures heart rate and HRV, temperature trends, and movement",                                                  side: "left"  },
-  { title: "Quality Materials",  desc: "Ceramic body with seamless stainless steel interior",                                                                side: "right" },
-  { title: "Water Proof",        desc: "Water resistant up to 100m / 328 ft",                                                                               side: "right" },
-  { title: "Long-lasting Battery", desc: "3–5 days of battery life. Typically charges in 30 min",                                                           side: "right" },
+  { title: "Private Mic",          desc: "Capture at whisper level. Can keep recording for up to 60 mins",                                                                                       side: "left"  },
+  { title: "Sensors",              desc: "PPG — heart rate, HRV, stress & emotion. Temperature trends. Accelerometer for movement.",                                                             side: "left"  },
+  { title: "Light Vibrations",     desc: "Multiple patterns, fully customizable",                                                                                                                side: "left"  },
+  { title: "Quality Materials",    desc: "Ceramic body with seamless stainless steel interior",                                                                                                  side: "right" },
+  { title: "Water Proof",          desc: "Water resistant for daily use — shower friendly",                                                                                                      side: "right" },
+  { title: "Long-lasting Battery", desc: "3–5 days of battery life",                                                                                                                            side: "right" },
 ];
 
 // Pixel offsets from ring center — ring lives in a fixed 440×433 container
@@ -25,10 +25,10 @@ const OFFSETS = [
 // Label line-end X as a fraction of viewport width
 const LX_FRAC = [0.26, 0.26, 0.26, 0.74, 0.74, 0.74];
 
-const STEP_VH  = 50;
-const INIT_VH  = 20;
+const STEP_VH  = 30;
+const INIT_VH  = 10;
 const N        = SPECS.length;
-const TOTAL_VH = 100 + INIT_VH + (N - 1) * STEP_VH; // ~370 vh
+const TOTAL_VH = 100 + INIT_VH + (N - 1) * STEP_VH; // ~260 vh
 
 export default function ProductSpecs() {
   const containerRef = useRef<HTMLDivElement>(null);
