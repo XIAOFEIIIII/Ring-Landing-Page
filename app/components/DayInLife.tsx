@@ -5,7 +5,7 @@ import Image from "next/image";
 
 const SCENARIOS = [
   {
-    time: "6:47 AM",
+    time: "7:45 AM",
     label: "Before the day begins",
     photo: "/images/day-in-life/1-photo.jpg",
     app:   "/images/day-in-life/1-app.jpg",
@@ -21,7 +21,7 @@ const SCENARIOS = [
     appAlt:   "Mood app showing Uneasy state at 11:00",
   },
   {
-    time: "12:30 PM",
+    time: "3:00 PM",
     label: "Someone needed prayer",
     photo: "/images/day-in-life/3-photo.jpg",
     app:   "/images/day-in-life/3-app.jpg",
