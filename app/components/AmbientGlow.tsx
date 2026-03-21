@@ -11,20 +11,20 @@ const BLOBS = [
       borderRadius: "50%",
       background: "radial-gradient(circle, rgba(255,183,77,0.28) 0%, transparent 70%)",
       filter: "blur(60px)",
-      right: "-200px", top: "40%",
+      right: "-200px", top: "20%",
     },
-    speed: -0.06,
+    speed: -0.18,
   },
   {
-    // Muted gold — left, starts lower
+    // Muted gold — left, starts mid
     style: {
       width: "700px", height: "700px",
       borderRadius: "50%",
       background: "radial-gradient(circle, rgba(238,192,80,0.22) 0%, transparent 70%)",
       filter: "blur(70px)",
-      left: "-150px", top: "60%",
+      left: "-150px", top: "40%",
     },
-    speed: -0.05,
+    speed: -0.14,
   },
 ];
 
