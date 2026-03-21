@@ -35,7 +35,7 @@ const BLOBS = [
       filter: "blur(70px)",
       right: "-150px", bottom: "-200px",
     },
-    speed: 0.05,
+    speed: -0.05,
   },
 ];
 
