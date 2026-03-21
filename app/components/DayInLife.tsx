@@ -101,7 +101,7 @@ export default function DayInLife() {
         {/* Right — phone mockup, 300×620 */}
         <div
           className="relative shrink-0 w-[290px] h-[600px] rounded-[36px] overflow-hidden"
-          style={{ boxShadow: "0px 0px 10px 0px rgba(24,18,18,0.08)" }}
+          style={{ boxShadow: "0px 8px 40px 0px rgba(24,18,18,0.06)" }}
         >
           <Image
             key={scene.app}
