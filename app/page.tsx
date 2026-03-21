@@ -85,6 +85,11 @@ export default function Home() {
         <FeatureSections />
       </div>
 
+      {/* ── Scroll-driven Product Specs ───────────────────────────────────── */}
+      <div id="specs">
+        <ProductSpecs />
+      </div>
+
       {/* ── Day in Life ───────────────────────────────────────────────────── */}
       <DayInLife />
 
@@ -100,11 +105,6 @@ export default function Home() {
           in all the ordinary days.
         </p>
       </section>
-
-      {/* ── Scroll-driven Product Specs ───────────────────────────────────── */}
-      <div id="specs">
-        <ProductSpecs />
-      </div>
 
       {/* ── Closing CTA ───────────────────────────────────────────────────── */}
       <section className="flex flex-col items-center justify-center gap-12 px-[64px] pt-[160px] pb-[120px]">
