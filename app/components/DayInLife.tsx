@@ -6,7 +6,7 @@ import Image from "next/image";
 const SCENARIOS = [
   {
     time: "7:45 AM",
-    label: "Before the day begins",
+    label: "Catching a dream",
     photo: "/images/day-in-life/1-photo.jpg",
     app:   "/images/day-in-life/1-app.jpg",
     photoAlt: "Woman lying in bed, ring on her finger",
@@ -14,7 +14,7 @@ const SCENARIOS = [
   },
   {
     time: "11:15 AM",
-    label: "A pause you didn't plan",
+    label: "When tension rises",
     photo: "/images/day-in-life/2-photo.jpg",
     app:   "/images/day-in-life/2-app.jpg",
     photoAlt: "Man pausing, hands folded over laptop",
@@ -22,7 +22,7 @@ const SCENARIOS = [
   },
   {
     time: "3:00 PM",
-    label: "Someone needed prayer",
+    label: "Praying for a friend",
     photo: "/images/day-in-life/3-photo.jpg",
     app:   "/images/day-in-life/3-app.jpg",
     photoAlt: "Hands with Bless Ring, reaching out",
@@ -30,7 +30,7 @@ const SCENARIOS = [
   },
   {
     time: "7:00 PM",
-    label: "Fully present",
+    label: "At Bible study",
     photo: "/images/day-in-life/4-photo.jpg",
     app:   "/images/day-in-life/4-app.jpg",
     photoAlt: "Couple reading Bible together",
@@ -38,7 +38,7 @@ const SCENARIOS = [
   },
   {
     time: "10:22 PM",
-    label: "The day comes full circle",
+    label: "Evening prayer",
     photo: "/images/day-in-life/5-photo.jpg",
     app:   "/images/day-in-life/5-app.jpg",
     photoAlt: "Woman scrolling evening devotional on phone",
