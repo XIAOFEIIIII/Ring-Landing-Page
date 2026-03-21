@@ -87,20 +87,20 @@ export default function DayInLife() {
       {/* Content: photo left + phone mockup right */}
       <div className="flex gap-[60px] items-start">
         {/* Left — lifestyle photo, 620×620 */}
-        <div className="relative shrink-0 w-[620px] h-[620px] rounded-[16px] overflow-hidden">
+        <div className="relative shrink-0 w-[480px] h-[480px] rounded-[16px] overflow-hidden">
           <Image
             key={scene.photo}
             src={scene.photo}
             alt={scene.photoAlt}
             fill
             className="object-cover object-center"
-            sizes="620px"
+            sizes="480px"
           />
         </div>
 
         {/* Right — phone mockup, 300×620 */}
         <div
-          className="relative shrink-0 w-[300px] h-[620px] rounded-[36px] overflow-hidden"
+          className="relative shrink-0 w-[290px] h-[600px] rounded-[36px] overflow-hidden"
           style={{ boxShadow: "0px 0px 10px 0px rgba(24,18,18,0.08)" }}
         >
           <Image
