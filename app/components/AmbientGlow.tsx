@@ -13,7 +13,7 @@ const BLOBS = [
       filter: "blur(60px)",
       right: "-200px", top: "-200px",
     },
-    speed: 0.06,
+    speed: -0.06,
   },
   {
     // Soft peach — left-center
