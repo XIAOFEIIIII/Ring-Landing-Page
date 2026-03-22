@@ -100,32 +100,30 @@ export default function DayInLife() {
         ))}
       </div>
 
-      {/* Content: photo (fill) | phone (fixed) | text card (fill) — top-aligned */}
-      <div className="flex gap-[40px] items-start">
+      {/* Grid: photo (1fr) | phone (auto) | text card (1fr) — strictly equal outer widths */}
+      <div className="grid gap-[40px] items-start" style={{ gridTemplateColumns: "1fr auto 1fr" }}>
 
-        {/* Left — lifestyle photo, same width as text card, square */}
-        <div className="flex-1 min-w-0">
-          <div className="relative w-full aspect-square rounded-[16px] overflow-hidden">
-            {SCENARIOS.map((s, i) => (
-              <Image
-                key={s.photo}
-                src={s.photo}
-                alt={s.photoAlt}
-                fill
-                className="object-cover object-center"
-                sizes="40vw"
-                style={{
-                  opacity: i === active ? 1 : 0,
-                  transition: "opacity 0.8s ease-in-out",
-                }}
-              />
-            ))}
-          </div>
+        {/* Left — lifestyle photo, square */}
+        <div className="relative w-full aspect-square rounded-[16px] overflow-hidden">
+          {SCENARIOS.map((s, i) => (
+            <Image
+              key={s.photo}
+              src={s.photo}
+              alt={s.photoAlt}
+              fill
+              className="object-cover object-center"
+              sizes="40vw"
+              style={{
+                opacity: i === active ? 1 : 0,
+                transition: "opacity 0.8s ease-in-out",
+              }}
+            />
+          ))}
         </div>
 
-        {/* Center — phone mockup, fixed width */}
+        {/* Center — app screenshot, fixed width */}
         <div
-          className="relative shrink-0 w-[290px] h-[600px] rounded-[36px] overflow-hidden"
+          className="relative w-[290px] h-[600px] rounded-[16px] overflow-hidden"
           style={{ boxShadow: "0px 8px 40px 0px rgba(24,18,18,0.06)" }}
         >
           {scene.apps.map((src, i) => (
@@ -144,12 +142,12 @@ export default function DayInLife() {
           ))}
         </div>
 
-        {/* Right — text card, hug height, same width as photo */}
+        {/* Right — text card, same 1fr width as photo */}
         <div
-          className="flex-1 min-w-0 relative rounded-[16px] p-[40px] bg-[#faf8f5]"
-          style={{ boxShadow: "0px 0px 10px 0px rgba(24,18,18,0.08)" }}
+          className="relative rounded-[16px] p-[40px] bg-[#faf8f5]"
+          style={{ boxShadow: "0px 8px 40px 0px rgba(24,18,18,0.06)" }}
         >
-          {/* Reserve height using the longest text so the card doesn't collapse */}
+          {/* Invisible placeholder (longest text) to set stable card height */}
           <p className="invisible text-[24px] leading-[1.6] text-center whitespace-pre-line pointer-events-none" aria-hidden>
             {SCENARIOS.reduce((a, b) => a.text.length > b.text.length ? a : b).text}
           </p>
