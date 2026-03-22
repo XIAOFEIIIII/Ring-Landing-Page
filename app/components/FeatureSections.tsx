@@ -22,7 +22,7 @@ const STEPS = [
     title: "Be Seen",
     description:
       "The ring reads your body's quiet signals — tension, fatigue, calm, rest. Over time, you'll see not just what you prayed, but what you carried.",
-    image: "/images/feature-beseen.jpg",
+    image: "/images/BeSeen.jpg",
     alt: "Phone showing Bless Ring app with mood and health insights",
   },
 ];
