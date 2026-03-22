@@ -51,12 +51,77 @@ const SCENARIOS = [
   },
 ];
 
-export default function DayInLife() {
+// ── Mobile: one row per scenario, no tabs ────────────────────────────────────
+
+function MobileScenarioRow({ scenario }: { scenario: typeof SCENARIOS[0] }) {
+  const [appIndex, setAppIndex] = useState(0);
+
+  useEffect(() => {
+    if (scenario.apps.length <= 1) return;
+    const id = setInterval(() => {
+      setAppIndex((i) => (i + 1) % scenario.apps.length);
+    }, 2500);
+    return () => clearInterval(id);
+  }, [scenario.apps.length]);
+
+  return (
+    <div data-animate className="flex flex-col gap-5">
+      {/* Row header */}
+      <div className="flex items-baseline gap-3">
+        <span className="text-[13px] text-[#73726c]">{scenario.time}</span>
+        <span className="text-[15px] font-medium text-[#141413]">{scenario.label}</span>
+      </div>
+
+      {/* Photo — full width, square */}
+      <div className="relative w-full aspect-square rounded-[12px] overflow-hidden">
+        <Image
+          src={scenario.photo}
+          alt={scenario.photoAlt}
+          fill
+          className="object-cover object-center"
+          sizes="100vw"
+        />
+      </div>
+
+      {/* App screenshot — full width, proportional */}
+      <div
+        className="relative w-full rounded-[12px] overflow-hidden"
+        style={{ aspectRatio: "290 / 600", boxShadow: "0px 8px 40px 0px rgba(24,18,18,0.06)" }}
+      >
+        {scenario.apps.map((src, i) => (
+          <Image
+            key={src}
+            src={src}
+            alt={scenario.appAlt}
+            fill
+            className="object-cover object-top"
+            sizes="100vw"
+            style={{
+              opacity: i === appIndex ? 1 : 0,
+              transition: "opacity 0.8s ease-in-out",
+            }}
+          />
+        ))}
+      </div>
+
+      {/* Text */}
+      <p
+        className="text-[18px] leading-[1.6] text-[#141413] text-right whitespace-pre-line"
+        style={{ fontFamily: "var(--font-lora)", fontStyle: "italic" }}
+      >
+        {scenario.text}
+      </p>
+    </div>
+  );
+}
+
+// ── Desktop: tabbed layout ────────────────────────────────────────────────────
+
+function DesktopDayInLife() {
   const [active, setActive] = useState(0);
   const [appIndex, setAppIndex] = useState(0);
   const scene = SCENARIOS[active];
 
-  // Cycle through multiple app images when the active scenario has more than one
   useEffect(() => {
     setAppIndex(0);
     if (scene.apps.length <= 1) return;
@@ -67,15 +132,7 @@ export default function DayInLife() {
   }, [active, scene.apps.length]);
 
   return (
-    <section className="px-[64px] pt-[120px] pb-[160px] max-w-[1512px] mx-auto">
-      {/* Title */}
-      <div className="mb-24" data-animate>
-        <h2 className="text-[72px] font-light leading-[1.02] text-[#141413]">
-          A Day with{" "}
-          <em style={{ fontFamily: "var(--font-lora)", fontStyle: "italic" }}>Bless Ring</em>
-        </h2>
-      </div>
-
+    <>
       {/* Tab bar */}
       <div className="flex border-b border-black/10 mb-12" data-animate style={{ transitionDelay: "80ms" }}>
         {SCENARIOS.map((s, i) => (
@@ -100,8 +157,8 @@ export default function DayInLife() {
         ))}
       </div>
 
-      {/* Grid: photo (1fr) | phone (auto) | text card (1fr) — strictly equal outer widths */}
-      <div className="grid gap-[40px] items-start" style={{ gridTemplateColumns: "1fr auto 1fr" }}>
+      {/* Grid: photo (1fr) | phone (auto) | text (1fr) */}
+      <div className="grid gap-[40px] items-center" style={{ gridTemplateColumns: "1fr auto 1fr" }}>
 
         {/* Left — lifestyle photo, square */}
         <div className="relative w-full aspect-square rounded-[16px] overflow-hidden" data-animate style={{ transitionDelay: "100ms" }}>
@@ -121,7 +178,7 @@ export default function DayInLife() {
           ))}
         </div>
 
-        {/* Center — app screenshot, fixed width */}
+        {/* Center — app screenshot */}
         <div
           className="relative w-[290px] h-[600px] rounded-[16px] overflow-hidden"
           data-animate
@@ -143,34 +200,62 @@ export default function DayInLife() {
           ))}
         </div>
 
-        {/* Right — text card, same 1fr width as photo */}
+        {/* Right — text, no card */}
         <div
-          className="relative rounded-[16px] p-[40px] bg-[#faf8f5]"
+          className="relative text-[18px] leading-[1.6] text-[#141413] text-right"
           data-animate
-          style={{ boxShadow: "0px 8px 40px 0px rgba(24,18,18,0.06)", transitionDelay: "600ms" }}
+          style={{ fontFamily: "var(--font-lora)", fontStyle: "italic", transitionDelay: "600ms" }}
         >
-          {/* Invisible placeholder (longest text) to set stable card height */}
-          <p className="invisible text-[24px] leading-[1.6] text-center whitespace-pre-line pointer-events-none" aria-hidden>
-            {SCENARIOS.reduce((a, b) => a.text.length > b.text.length ? a : b).text}
-          </p>
           {SCENARIOS.map((s, i) => (
             <p
               key={s.label}
-              className="absolute inset-[40px] flex items-center justify-center text-center text-[24px] leading-[1.6] text-[#141413]"
+              className="absolute inset-0 flex items-center justify-end whitespace-pre-line"
               style={{
-                fontFamily: "var(--font-lora)",
-                fontStyle:  "italic",
-                whiteSpace: "pre-line",
-                opacity:    i === active ? 1 : 0,
+                opacity: i === active ? 1 : 0,
                 transition: "opacity 0.8s ease-in-out",
+                textAlign: "right",
               }}
             >
               {s.text}
             </p>
           ))}
+          {/* Invisible placeholder for stable height */}
+          <p className="invisible pointer-events-none whitespace-pre-line" aria-hidden>
+            {SCENARIOS.reduce((a, b) => a.text.length > b.text.length ? a : b).text}
+          </p>
         </div>
 
       </div>
+    </>
+  );
+}
+
+// ── Section wrapper ───────────────────────────────────────────────────────────
+
+export default function DayInLife() {
+  return (
+    <section className="px-5 pt-16 pb-20 lg:px-[64px] lg:pt-[120px] lg:pb-[160px] max-w-[1512px] mx-auto">
+
+      {/* Title */}
+      <div className="mb-12 lg:mb-24" data-animate>
+        <h2 className="text-[40px] lg:text-[72px] font-light leading-[1.02] text-[#141413]">
+          A Day with{" "}
+          <em style={{ fontFamily: "var(--font-lora)", fontStyle: "italic" }}>Bless Ring</em>
+        </h2>
+      </div>
+
+      {/* Mobile: flat list */}
+      <div className="flex flex-col gap-[72px] lg:hidden">
+        {SCENARIOS.map((s) => (
+          <MobileScenarioRow key={s.label} scenario={s} />
+        ))}
+      </div>
+
+      {/* Desktop: tabbed */}
+      <div className="hidden lg:block">
+        <DesktopDayInLife />
+      </div>
+
     </section>
   );
 }

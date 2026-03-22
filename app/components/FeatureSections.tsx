@@ -27,7 +27,7 @@ const STEPS = [
   },
 ];
 
-// Parallax strength — fraction of (card-center − viewport-center) applied as translateY
+// Parallax strength — desktop only
 const PARALLAX = 0.10;
 
 export default function FeatureSections() {
@@ -42,8 +42,6 @@ export default function FeatureSections() {
         const card   = wrap.parentElement!;
         const rect   = card.getBoundingClientRect();
         const center = rect.top + rect.height / 2;
-        // Positive offset → image shifts down (shows top crop) when card is below center
-        // Negative offset → image shifts up (shows bottom crop) when card is above center
         const offset = (vh / 2 - center) * PARALLAX;
         wrap.style.transform = `translateY(${offset}px)`;
       });
@@ -56,7 +54,7 @@ export default function FeatureSections() {
     };
 
     window.addEventListener("scroll", onScroll, { passive: true });
-    update(); // set initial position
+    update();
     return () => {
       window.removeEventListener("scroll", onScroll);
       if (rafRef.current) cancelAnimationFrame(rafRef.current);
@@ -65,55 +63,71 @@ export default function FeatureSections() {
 
   return (
     <section>
-      {/* ── Photos row ───────────────────────────────────────────────────── */}
-      <div className="flex gap-[40px] px-[64px] pt-[40px] pb-0">
+
+      {/* ── Mobile: stacked cards ─────────────────────────────────────────── */}
+      <div className="flex flex-col gap-10 px-5 py-10 lg:hidden">
         {STEPS.map((step, i) => (
-          <div
-            key={step.title}
-            className="flex-1 relative h-[580px] rounded-[20px] overflow-hidden"
-            data-animate
-            data-delay={i * 120}
-          >
-            {/*
-              Image wrapper is 20% taller than the card (10% bleed top + 10% bottom).
-              The parallax shifts it up/down within that extra room.
-            */}
-            <div
-              ref={(el) => { imgWrapRefs.current[i] = el; }}
-              className="absolute inset-x-0 will-change-transform"
-              style={{ top: "-10%", bottom: "-10%" }}
-            >
+          <div key={step.title} data-animate style={{ transitionDelay: `${i * 80}ms` }}>
+            <div className="relative w-full aspect-[4/3] rounded-[16px] overflow-hidden mb-5">
               <Image
                 src={step.image}
                 alt={step.alt}
                 fill
                 className="object-cover object-center"
-                sizes="(max-width: 1512px) 33vw, 475px"
-                priority={i === 0}
+                sizes="100vw"
               />
             </div>
+            <p className="text-[20px] leading-normal text-[#141413] mb-2">{step.title}</p>
+            <p className="text-[15px] leading-[1.6] text-[#141413] font-light whitespace-pre-line">{step.description}</p>
           </div>
         ))}
       </div>
 
-      {/* ── Text row ─────────────────────────────────────────────────────── */}
-      <div className="flex gap-[40px] px-[64px] pt-[24px] pb-[60px]">
-        {STEPS.map((step, i) => (
-          <div
-            key={step.title}
-            className="flex-1 flex flex-col gap-[16px]"
-            data-animate
-            data-delay={i * 120 + 180}
-          >
-            <p className="text-[24px] leading-normal text-[#141413]">
-              {step.title}
-            </p>
-            <p className="text-[16px] leading-[1.6] text-[#141413] font-light whitespace-pre-line">
-              {step.description}
-            </p>
-          </div>
-        ))}
+      {/* ── Desktop: two rows ─────────────────────────────────────────────── */}
+      <div className="hidden lg:block">
+        {/* Photos row */}
+        <div className="flex gap-[40px] px-[64px] pt-[40px] pb-0">
+          {STEPS.map((step, i) => (
+            <div
+              key={step.title}
+              className="flex-1 relative h-[580px] rounded-[20px] overflow-hidden"
+              data-animate
+              data-delay={i * 120}
+            >
+              <div
+                ref={(el) => { imgWrapRefs.current[i] = el; }}
+                className="absolute inset-x-0 will-change-transform"
+                style={{ top: "-10%", bottom: "-10%" }}
+              >
+                <Image
+                  src={step.image}
+                  alt={step.alt}
+                  fill
+                  className="object-cover object-center"
+                  sizes="(max-width: 1512px) 33vw, 475px"
+                  priority={i === 0}
+                />
+              </div>
+            </div>
+          ))}
+        </div>
+
+        {/* Text row */}
+        <div className="flex gap-[40px] px-[64px] pt-[24px] pb-[60px]">
+          {STEPS.map((step, i) => (
+            <div
+              key={step.title}
+              className="flex-1 flex flex-col gap-[16px]"
+              data-animate
+              data-delay={i * 120 + 180}
+            >
+              <p className="text-[24px] leading-normal text-[#141413]">{step.title}</p>
+              <p className="text-[16px] leading-[1.6] text-[#141413] font-light whitespace-pre-line">{step.description}</p>
+            </div>
+          ))}
+        </div>
       </div>
+
     </section>
   );
 }

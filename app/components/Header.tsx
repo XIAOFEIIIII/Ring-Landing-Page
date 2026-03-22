@@ -25,7 +25,7 @@ export default function Header() {
         WebkitBackdropFilter: scrolled ? "blur(12px)" : "none",
       }}
     >
-      <div className="flex items-center justify-between h-[72px] px-[64px] max-w-[1512px] mx-auto">
+      <div className="flex items-center justify-between h-[72px] px-5 lg:px-[64px] max-w-[1512px] mx-auto">
         {/* Wordmark */}
         <span
           className={`text-[17px] font-medium tracking-wide transition-colors duration-500 ${
@@ -35,9 +35,9 @@ export default function Header() {
           Bless Ring
         </span>
 
-        {/* Nav anchors — visible after scrolling past hero */}
+        {/* Nav anchors — desktop only, visible after scrolling past hero */}
         <nav
-          className={`flex items-center gap-8 transition-all duration-500 ${
+          className={`hidden lg:flex items-center gap-8 transition-all duration-500 ${
             pastHero ? "opacity-100" : "opacity-0 pointer-events-none"
           }`}
         >

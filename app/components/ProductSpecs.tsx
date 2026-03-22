@@ -29,18 +29,17 @@ const SPECS = [
 
 // Each step: ring crossfades to feature image + spec appears simultaneously
 const STEPS: { frame: number; activeSpec: number }[] = [
-  { frame: 0, activeSpec: -1 }, // intro — 1.png, no specs
-  { frame: 1, activeSpec:  0 }, // touch to interact + Touch to Activate
-  { frame: 2, activeSpec:  1 }, // mic + Private Mic
-  { frame: 3, activeSpec:  2 }, // sensors + Sensors
-  { frame: 4, activeSpec:  3 }, // Vibration + Light Vibrations
-  { frame: 5, activeSpec:  4 }, // Battery + Long-lasting Battery
-  { frame: 6, activeSpec:  5 }, // Material + Quality Materials
-  { frame: 7, activeSpec:  6 }, // waterproof + Water Proof
+  { frame: 0, activeSpec: -1 },
+  { frame: 1, activeSpec:  0 },
+  { frame: 2, activeSpec:  1 },
+  { frame: 3, activeSpec:  2 },
+  { frame: 4, activeSpec:  3 },
+  { frame: 5, activeSpec:  4 },
+  { frame: 6, activeSpec:  5 },
+  { frame: 7, activeSpec:  6 },
 ];
 
 // Elliptical arc positions — 3 left, 4 right
-// isLeft = index < 3
 const LABEL_X = [0.31, 0.27, 0.31,  0.69, 0.73, 0.73, 0.69];
 const LABEL_Y = [0.34, 0.50, 0.66,  0.28, 0.42, 0.58, 0.72];
 
@@ -48,13 +47,45 @@ const LABEL_Y = [0.34, 0.50, 0.66,  0.28, 0.42, 0.58, 0.72];
 
 const N_STEPS  = STEPS.length;   // 8
 const STEP_VH  = 45;
-const INIT_VH  = -30; // negative: Touch Control triggers after only 15vh instead of 45vh
+const INIT_VH  = -30;
 const TAIL_VH  = 60;
 const TOTAL_VH = 100 + INIT_VH + (N_STEPS - 1) * STEP_VH + TAIL_VH; // 475 vh
 
-// ── Component ─────────────────────────────────────────────────────────────────
+// ── Mobile static layout ──────────────────────────────────────────────────────
 
-export default function ProductSpecs() {
+function MobileSpecs() {
+  return (
+    <section className="px-5 py-16 lg:hidden">
+      {/* Ring image */}
+      <div className="flex justify-center mb-12" data-animate>
+        <div className="relative w-[180px] h-[180px]">
+          <Image
+            src={FRAMES[0]}
+            alt="Bless Ring"
+            fill
+            className="object-contain"
+            sizes="180px"
+            priority
+          />
+        </div>
+      </div>
+
+      {/* Spec grid — 2 columns */}
+      <div className="grid grid-cols-2 gap-x-6 gap-y-8">
+        {SPECS.map((spec, i) => (
+          <div key={spec.title} data-animate style={{ transitionDelay: `${i * 60}ms` }}>
+            <p className="text-[15px] font-medium text-[#141413] leading-tight mb-1">{spec.title}</p>
+            <p className="text-[13px] font-light text-[#73726c] leading-[1.6]">{spec.desc}</p>
+          </div>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+// ── Desktop scroll-driven layout ─────────────────────────────────────────────
+
+function DesktopSpecs() {
   const containerRef = useRef<HTMLDivElement>(null);
   const [step, setStep] = useState(0);
   const rafRef          = useRef<number | null>(null);
@@ -67,8 +98,6 @@ export default function ProductSpecs() {
         const el = containerRef.current;
         if (!el) return;
         const vh       = window.innerHeight;
-        // PRE_VH: start counting before the section fully sticks
-        // (positive = trigger when section is still entering from the bottom)
         const prePx    = 0.5 * vh;
         const scrolled = -el.getBoundingClientRect().top + prePx;
         const initPx   = (INIT_VH / 100) * vh;
@@ -87,7 +116,6 @@ export default function ProductSpecs() {
 
   const { frame, activeSpec } = STEPS[step];
 
-  // Scroll to the position that triggers a given step
   const scrollToStep = (s: number) => {
     const el = containerRef.current;
     if (!el) return;
@@ -103,7 +131,7 @@ export default function ProductSpecs() {
     <div ref={containerRef} style={{ height: `${TOTAL_VH}vh` }} className="relative">
       <div className="sticky top-0 h-screen overflow-hidden">
 
-        {/* ── Ring frames — stacked, instant cut ─────────────────────────── */}
+        {/* Ring frames */}
         <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
           <div className="relative w-[240px] h-[240px]" data-animate>
             {FRAMES.map((src, i) => (
@@ -115,18 +143,16 @@ export default function ProductSpecs() {
                 className="object-contain"
                 sizes="240px"
                 priority={i === 0}
-                style={{
-                  opacity: i === frame ? 1 : 0,
-                }}
+                style={{ opacity: i === frame ? 1 : 0 }}
               />
             ))}
           </div>
         </div>
 
-        {/* ── Spec labels — cumulative ────────────────────────────────────── */}
+        {/* Spec labels */}
         {SPECS.map((spec, i) => {
-          const isLeft  = i < 3;
-          const vis     = i <= activeSpec;
+          const isLeft   = i < 3;
+          const vis      = i <= activeSpec;
           const isActive = i === activeSpec;
           return (
             <button
@@ -155,7 +181,7 @@ export default function ProductSpecs() {
           );
         })}
 
-        {/* ── Frame progress dots ─────────────────────────────────────────── */}
+        {/* Progress dots */}
         <div className="absolute bottom-10 left-1/2 -translate-x-1/2 flex gap-2">
           {FRAMES.map((_, i) => (
             <button
@@ -175,5 +201,18 @@ export default function ProductSpecs() {
 
       </div>
     </div>
+  );
+}
+
+// ── Export ────────────────────────────────────────────────────────────────────
+
+export default function ProductSpecs() {
+  return (
+    <>
+      <MobileSpecs />
+      <div className="hidden lg:block">
+        <DesktopSpecs />
+      </div>
+    </>
   );
 }
