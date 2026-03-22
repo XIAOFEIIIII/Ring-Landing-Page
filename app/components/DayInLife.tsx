@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Image from "next/image";
 
 const SCENARIOS = [
@@ -8,7 +8,7 @@ const SCENARIOS = [
     time: "7:45 AM",
     label: "Catching a dream",
     photo: "/images/day-in-life/1-photo.jpg",
-    app:   "/images/day-in-life/1-app.jpg",
+    apps:  ["/images/day-in-life/1-app.jpg"],
     photoAlt: "Woman lying in bed, ring on her finger",
     appAlt:   "Journal app showing morning capture",
   },
@@ -16,7 +16,7 @@ const SCENARIOS = [
     time: "11:15 AM",
     label: "When tension rises",
     photo: "/images/day-in-life/2-photo.jpg",
-    app:   "/images/day-in-life/2-app.jpg",
+    apps:  ["/images/day-in-life/2-app.jpg"],
     photoAlt: "Man pausing, hands folded over laptop",
     appAlt:   "Mood app showing Uneasy state at 11:00",
   },
@@ -24,7 +24,7 @@ const SCENARIOS = [
     time: "3:00 PM",
     label: "Praying for a friend",
     photo: "/images/day-in-life/3-photo.jpg",
-    app:   "/images/day-in-life/3-app.jpg",
+    apps:  ["/images/day-in-life/3-app.jpg"],
     photoAlt: "Hands with Bless Ring, reaching out",
     appAlt:   "Community prayer feed",
   },
@@ -32,7 +32,7 @@ const SCENARIOS = [
     time: "7:00 PM",
     label: "At Bible study",
     photo: "/images/day-in-life/4-photo.jpg",
-    app:   "/images/day-in-life/4-app.jpg",
+    apps:  ["/images/day-in-life/4-app.jpg", "/images/day-in-life/4-app_1.jpg"],
     photoAlt: "Couple reading Bible together",
     appAlt:   "Sermon notes — Ephesians 2:10",
   },
@@ -40,7 +40,7 @@ const SCENARIOS = [
     time: "10:22 PM",
     label: "Evening prayer",
     photo: "/images/day-in-life/5-photo.jpg",
-    app:   "/images/day-in-life/5-app.jpg",
+    apps:  ["/images/day-in-life/5-app.jpg"],
     photoAlt: "Woman scrolling evening devotional on phone",
     appAlt:   "Scripture — Philippians 4:6",
   },
@@ -48,7 +48,18 @@ const SCENARIOS = [
 
 export default function DayInLife() {
   const [active, setActive] = useState(0);
+  const [appIndex, setAppIndex] = useState(0);
   const scene = SCENARIOS[active];
+
+  // Cycle through multiple app images when the active scenario has more than one
+  useEffect(() => {
+    setAppIndex(0);
+    if (scene.apps.length <= 1) return;
+    const id = setInterval(() => {
+      setAppIndex((i) => (i + 1) % scene.apps.length);
+    }, 2500);
+    return () => clearInterval(id);
+  }, [active, scene.apps.length]);
 
   return (
     <section className="px-[64px] pt-[120px] pb-[160px] max-w-[1512px] mx-auto">
@@ -104,8 +115,8 @@ export default function DayInLife() {
           style={{ boxShadow: "0px 8px 40px 0px rgba(24,18,18,0.06)" }}
         >
           <Image
-            key={scene.app}
-            src={scene.app}
+            key={scene.apps[appIndex]}
+            src={scene.apps[appIndex]}
             alt={scene.appAlt}
             fill
             className="object-cover object-top"

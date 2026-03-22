@@ -16,37 +16,47 @@ No lint or test scripts are configured.
 
 ## Architecture
 
-Single-page marketing site for the "Bless Ring" product. The entire page lives in `app/page.tsx` — no routing, no additional pages.
+Single-page marketing site for the "Bless Ring" product. No routing — one page, extracted into focused components.
 
 ```
 app/
-  layout.tsx      # Root layout: loads Inter + Lora fonts, sets metadata
-  globals.css     # Tailwind v4 import + CSS custom properties (colors, fonts)
-  page.tsx        # Full landing page + inline sub-components
-public/images/    # All product/lifestyle images (PNG)
+  layout.tsx                  # Root layout: Manrope + Lora fonts, AmbientGlow, Header, ScrollAnimations
+  globals.css                 # Tailwind v4 import, CSS vars, keyframe animations, [data-animate] system
+  page.tsx                    # Page shell — composes section markup + imported components
+  components/
+    Header.tsx                # Fixed nav bar
+    AmbientGlow.tsx           # Animated background gradient blobs (fixed, z:0)
+    ScrollAnimations.tsx      # IntersectionObserver that adds .is-visible to [data-animate] elements
+    FeatureSections.tsx       # Four journey-step feature blocks with stepper UI
+    ProductSpecs.tsx          # Ring specs layout (ring image + spec cards on each side)
+    DayInLife.tsx             # Tabbed scenario section
+public/images/                # All product/lifestyle images
 ```
 
 ### Key conventions
 
-**Tailwind v4** — configured via `@import "tailwindcss"` in `globals.css` with `@theme inline` for font variables. This differs significantly from v3 (no `tailwind.config.js`).
+**Tailwind v4** — configured via `@import "tailwindcss"` in `globals.css` with `@theme inline` for font variables. No `tailwind.config.js`.
 
-**Fonts** — loaded via `next/font/google` in `layout.tsx`, exposed as CSS variables `--font-inter` and `--font-lora`. Applied inline with `style={{ fontFamily: "var(--font-inter)" }}` (not via Tailwind font utilities).
+**Fonts** — Manrope (sans, weights 300–600) and Lora (serif/italic) loaded via `next/font/google`, exposed as `--font-manrope` and `--font-lora`. Applied inline: `style={{ fontFamily: "var(--font-lora)", fontStyle: "italic" }}`. Tailwind font utilities are not used.
 
-**Design width** — 1512px. Sections use `max-w-[1512px] mx-auto` with fixed `px-[200px]` padding. All sizing is pixel-exact to match Figma (node `3756-10902`).
+**Scroll animations** — Add `data-animate` to any element; `ScrollAnimations.tsx` uses IntersectionObserver to toggle `.is-visible`, which triggers the CSS transition defined in `globals.css`. Use `style={{ transitionDelay: "120ms" }}` for staggered reveals.
 
-**Color palette** (defined as CSS vars in `globals.css`, used as Tailwind arbitrary values):
-- `#faf8f5` — page background
-- `#141413` — primary text / CTA button
-- `#3d3d3a` — secondary text
-- `#73726c` — tertiary / inactive stepper items
+**Z-index layering** — `AmbientGlow` renders at `z:0` (fixed). All page content wraps in a `z:1` div in `layout.tsx` to sit above the glow.
+
+**Design width** — 1512px. Sections use `max-w-[1512px] mx-auto` with `px-[64px]` padding. Sizing is pixel-exact to match Figma node `3756-10902`.
+
+**Color palette** (CSS vars in `globals.css`, used as Tailwind arbitrary values):
+- `#faf8f5` — page background (`--color-bg`)
+- `#141413` — primary text / CTA button (`--color-text-primary`)
+- `#3d3d3a` — secondary text (`--color-text-secondary`)
+- `#73726c` — tertiary / inactive items (`--color-text-tertiary`)
 - `#bfb5a7` — hero section background fallback
 
 **Page structure** (top to bottom in `app/page.tsx`):
-1. Hero — `h-[836px]`, hero-bg.png with gradient overlay, headline + preorder CTA
-2. "Stay Close to God" intro — centered text with decorative radial-gradient blobs
-3. Four `<FeatureSection>` — each renders the full `JOURNEY_STEPS` stepper with one active step + a paired photo
-4. Product specs — ring image centered, 3 specs on each side
-5. "Stay Close to God" side-by-side layout
-6. Three full-width lifestyle photos (aspect-ratio locked)
-
-The `FeatureStepper` component renders all four journey steps every time, highlighting the `activeIndex` step with a taller vertical bar and visible description text.
+1. Hero — `h-[836px]`, Hero.png with gradient overlay, headline + preorder CTA
+2. "Ordinary Days, Faithfully Kept" — two-column intro text
+3. `<FeatureSections />` — journey stepper (Capture / Be Seen / Reflect / Witness) + photos
+4. `<ProductSpecs />` — ring image centered, specs on each side
+5. `<DayInLife />` — tabbed day-in-life scenarios
+6. Quote block — centered closing poem
+7. Closing CTA — headline + preorder button
