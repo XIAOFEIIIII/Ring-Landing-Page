@@ -34,7 +34,7 @@ const STEPS: { frame: number; activeSpec: number }[] = [
 ];
 
 // Label positions (fractions of viewport)
-const LABEL_X = [0.36, 0.36, 0.36, 0.64, 0.64, 0.64];
+const LABEL_X = [0.36, 0.30, 0.36, 0.64, 0.70, 0.64];
 const LABEL_Y = [0.26, 0.50, 0.74, 0.26, 0.50, 0.74];
 
 // ── Scroll constants ──────────────────────────────────────────────────────────
