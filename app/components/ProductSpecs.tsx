@@ -34,8 +34,10 @@ const STEPS: { frame: number; activeSpec: number }[] = [
 ];
 
 // Label positions (fractions of viewport)
-const LABEL_X = [0.36, 0.30, 0.36, 0.64, 0.70, 0.64];
-const LABEL_Y = [0.26, 0.50, 0.74, 0.26, 0.50, 0.74];
+// Elliptical arc around ring center (rx≈22vw, ry≈14vh)
+// Angles (CW from top): left specs at 300°/270°/240°, right at 60°/90°/120°
+const LABEL_X = [0.31, 0.28, 0.31, 0.69, 0.72, 0.69];
+const LABEL_Y = [0.36, 0.50, 0.64, 0.36, 0.50, 0.64];
 
 // ── Scroll constants ──────────────────────────────────────────────────────────
 
