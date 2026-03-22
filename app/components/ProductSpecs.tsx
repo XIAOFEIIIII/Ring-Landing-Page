@@ -47,10 +47,10 @@ const LABEL_Y = [0.34, 0.50, 0.66,  0.28, 0.42, 0.58, 0.72];
 // ── Scroll constants ──────────────────────────────────────────────────────────
 
 const N_STEPS  = STEPS.length;   // 8
-const STEP_VH  = 30;
-const INIT_VH  = 5;
+const STEP_VH  = 45;
+const INIT_VH  = 0;
 const TAIL_VH  = 60;
-const TOTAL_VH = 100 + INIT_VH + (N_STEPS - 1) * STEP_VH + TAIL_VH; // 375 vh
+const TOTAL_VH = 100 + INIT_VH + (N_STEPS - 1) * STEP_VH + TAIL_VH; // 475 vh
 
 // ── Component ─────────────────────────────────────────────────────────────────
 
