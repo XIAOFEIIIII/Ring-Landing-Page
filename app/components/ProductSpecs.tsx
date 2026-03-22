@@ -7,7 +7,7 @@ import Image from "next/image";
 
 const FRAMES = [
   "/images/Ring Spinning/1.png",                // 0 — intro
-  "/images/Ring Spinning/touch to interact.png", // 1
+  "/images/Ring Spinning/touch-to-interact.png",  // 1
   "/images/Ring Spinning/mic.png",               // 2
   "/images/Ring Spinning/sensors.png",           // 3
   "/images/Ring Spinning/Vibration.png",         // 4
