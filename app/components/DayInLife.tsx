@@ -11,6 +11,7 @@ const SCENARIOS = [
     apps:  ["/images/day-in-life/1-app.jpg"],
     photoAlt: "Woman lying in bed, ring on her finger",
     appAlt:   "Journal app showing morning capture",
+    text: "Still dark outside.\nDouble-tap and capture your dream before it dissolves.",
   },
   {
     time: "11:15 AM",
@@ -19,6 +20,7 @@ const SCENARIOS = [
     apps:  ["/images/day-in-life/2-app.jpg"],
     photoAlt: "Man pausing, hands folded over laptop",
     appAlt:   "Mood app showing Uneasy state at 11:00",
+    text: "The ring pulses.\nIt's noticed something you hadn't named yet.\nSixty seconds.\nA breath.\nA verse.\nYou return.",
   },
   {
     time: "3:00 PM",
@@ -27,6 +29,7 @@ const SCENARIOS = [
     apps:  ["/images/day-in-life/3-app.jpg"],
     photoAlt: "Hands with Bless Ring, reaching out",
     appAlt:   "Community prayer feed",
+    text: "A request comes in.\nNo need to reply,\nno need to find the right words.\nYou pray.\nThe ring marks it.\nSomewhere, they'll feel it.",
   },
   {
     time: "7:00 PM",
@@ -35,6 +38,7 @@ const SCENARIOS = [
     apps:  ["/images/day-in-life/4-app.jpg", "/images/day-in-life/4-app_1.jpg"],
     photoAlt: "Couple reading Bible together",
     appAlt:   "Sermon notes — Ephesians 2:10",
+    text: "The ring captures everything.\nYou don't touch your phone.\nYou're there.",
   },
   {
     time: "10:22 PM",
@@ -43,6 +47,7 @@ const SCENARIOS = [
     apps:  ["/images/day-in-life/5-app.jpg"],
     photoAlt: "Woman scrolling evening devotional on phone",
     appAlt:   "Scripture — Philippians 4:6",
+    text: "The ring vibrates, right on time.\nYou pray.\nIt remembers.",
   },
 ];
 
@@ -95,10 +100,11 @@ export default function DayInLife() {
         ))}
       </div>
 
-      {/* Content: photo left + phone mockup right */}
-      <div className="flex gap-[60px] items-start">
-        {/* Left — lifestyle photo, 620×620 */}
-        <div className="relative shrink-0 w-[480px] h-[480px] rounded-[16px] overflow-hidden">
+      {/* Content: photo (fill) | phone (center, fixed) | text card (fill) */}
+      <div className="flex gap-[40px] items-center">
+
+        {/* Left — lifestyle photo, fills remaining space */}
+        <div className="flex-1 relative h-[540px] rounded-[16px] overflow-hidden">
           {SCENARIOS.map((s, i) => (
             <Image
               key={s.photo}
@@ -106,7 +112,7 @@ export default function DayInLife() {
               alt={s.photoAlt}
               fill
               className="object-cover object-center"
-              sizes="480px"
+              sizes="50vw"
               style={{
                 opacity: i === active ? 1 : 0,
                 transition: "opacity 0.8s ease-in-out",
@@ -115,7 +121,7 @@ export default function DayInLife() {
           ))}
         </div>
 
-        {/* Right — phone mockup, 300×620 */}
+        {/* Center — phone mockup, fixed width */}
         <div
           className="relative shrink-0 w-[290px] h-[600px] rounded-[36px] overflow-hidden"
           style={{ boxShadow: "0px 8px 40px 0px rgba(24,18,18,0.06)" }}
@@ -135,6 +141,29 @@ export default function DayInLife() {
             />
           ))}
         </div>
+
+        {/* Right — text card, fills remaining space */}
+        <div
+          className="flex-1 relative h-[540px] rounded-[16px] flex items-center justify-center p-[40px]"
+          style={{ border: "1px solid rgba(31,30,29,0.15)" }}
+        >
+          {SCENARIOS.map((s, i) => (
+            <p
+              key={s.label}
+              className="absolute inset-[40px] flex items-center justify-center text-center text-[24px] leading-[1.6] text-[#141413]"
+              style={{
+                fontFamily:    "var(--font-lora)",
+                fontStyle:     "italic",
+                whiteSpace:    "pre-line",
+                opacity:       i === active ? 1 : 0,
+                transition:    "opacity 0.8s ease-in-out",
+              }}
+            >
+              {s.text}
+            </p>
+          ))}
+        </div>
+
       </div>
     </section>
   );
