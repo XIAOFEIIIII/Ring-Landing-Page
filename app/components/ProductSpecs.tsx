@@ -87,6 +87,18 @@ export default function ProductSpecs() {
 
   const { frame, activeSpec } = STEPS[step];
 
+  // Scroll to the position that triggers a given step
+  const scrollToStep = (s: number) => {
+    const el = containerRef.current;
+    if (!el) return;
+    const vh     = window.innerHeight;
+    const prePx  = 0.5 * vh;
+    const initPx = (INIT_VH / 100) * vh;
+    const stepPx = (STEP_VH  / 100) * vh;
+    const target = el.offsetTop - prePx + initPx + s * stepPx;
+    window.scrollTo({ top: Math.max(0, target), behavior: "smooth" });
+  };
+
   return (
     <div ref={containerRef} style={{ height: `${TOTAL_VH}vh` }} className="relative">
       <div className="sticky top-0 h-screen overflow-hidden">
@@ -113,12 +125,14 @@ export default function ProductSpecs() {
 
         {/* ── Spec labels — cumulative ────────────────────────────────────── */}
         {SPECS.map((spec, i) => {
-          const isLeft = i < 3;
-          const vis    = i <= activeSpec;
+          const isLeft  = i < 3;
+          const vis     = i <= activeSpec;
+          const isActive = i === activeSpec;
           return (
-            <div
+            <button
               key={spec.title}
-              className="absolute pointer-events-none"
+              onClick={() => scrollToStep(i + 1)}
+              className="absolute"
               style={{
                 left:      `${LABEL_X[i] * 100}%`,
                 top:       `${LABEL_Y[i] * 100}%`,
@@ -127,26 +141,33 @@ export default function ProductSpecs() {
                 filter:     vis ? "blur(0px)" : "blur(4px)",
                 transition: "opacity 0.7s cubic-bezier(0.25,0,0.2,1), filter 0.7s cubic-bezier(0.25,0,0.2,1)",
                 transitionDelay: "0ms",
+                cursor:     vis ? "pointer" : "default",
+                background: "none",
+                border:     "none",
+                padding:    0,
               }}
             >
               <div className={`flex flex-col gap-0.5 w-[190px] ${isLeft ? "text-right" : "text-left"}`}>
-                <p className="text-[17px] font-medium text-[#141413] leading-tight">{spec.title}</p>
-                <p className="text-[13px] font-light text-[#73726c] leading-[1.6]">{spec.desc}</p>
+                <p className={`text-[17px] leading-tight transition-all duration-300 ${isActive ? "font-semibold text-[#141413]" : "font-medium text-[#141413]/50"}`}>{spec.title}</p>
+                <p className={`text-[13px] leading-[1.6] transition-all duration-300 ${isActive ? "font-light text-[#73726c]" : "font-light text-[#73726c]/35"}`}>{spec.desc}</p>
               </div>
-            </div>
+            </button>
           );
         })}
 
         {/* ── Frame progress dots ─────────────────────────────────────────── */}
-        <div className="absolute bottom-10 left-1/2 -translate-x-1/2 flex gap-2 pointer-events-none">
+        <div className="absolute bottom-10 left-1/2 -translate-x-1/2 flex gap-2">
           {FRAMES.map((_, i) => (
-            <div
+            <button
               key={i}
-              className="rounded-full transition-all duration-500"
+              onClick={() => scrollToStep(i)}
+              className="rounded-full transition-all duration-500 cursor-pointer"
               style={{
                 width:           i === frame ? 20 : 6,
                 height:          6,
                 backgroundColor: i === frame ? "#141413" : "#bfb5a7",
+                border:          "none",
+                padding:         0,
               }}
             />
           ))}
