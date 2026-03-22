@@ -8,6 +8,7 @@ const SCENARIOS = [
     time: "7:45 AM",
     label: "Catching a dream",
     photo: "/images/day-in-life/1-photo.jpg",
+    appPhone: "/images/day-in-life/1-app-phone.jpg",
     apps:  ["/images/day-in-life/1-app.jpg"],
     photoAlt: "Woman lying in bed, ring on her finger",
     appAlt:   "Journal app showing morning capture",
@@ -17,6 +18,7 @@ const SCENARIOS = [
     time: "11:15 AM",
     label: "When tension rises",
     photo: "/images/day-in-life/2-photo.jpg",
+    appPhone: "/images/day-in-life/2-app-phone.jpg",
     apps:  ["/images/day-in-life/2-app.jpg"],
     photoAlt: "Man pausing, hands folded over laptop",
     appAlt:   "Mood app showing Uneasy state at 11:00",
@@ -26,6 +28,7 @@ const SCENARIOS = [
     time: "3:00 PM",
     label: "Praying for a friend",
     photo: "/images/day-in-life/3-photo.jpg",
+    appPhone: "/images/day-in-life/3-app-phone.jpg",
     apps:  ["/images/day-in-life/3-app.jpg"],
     photoAlt: "Hands with Bless Ring, reaching out",
     appAlt:   "Community prayer feed",
@@ -35,6 +38,7 @@ const SCENARIOS = [
     time: "7:00 PM",
     label: "At Bible study",
     photo: "/images/day-in-life/4-photo.jpg",
+    appPhone: "/images/day-in-life/4-app-phone.jpg",
     apps:  ["/images/day-in-life/4-app.jpg", "/images/day-in-life/4-app_1.jpg"],
     photoAlt: "Couple reading Bible together",
     appAlt:   "Sermon notes — Ephesians 2:10",
@@ -44,6 +48,7 @@ const SCENARIOS = [
     time: "10:22 PM",
     label: "Evening prayer",
     photo: "/images/day-in-life/5-photo.jpg",
+    appPhone: "/images/day-in-life/5-app-phone.jpg",
     apps:  ["/images/day-in-life/5-app.jpg"],
     photoAlt: "Woman scrolling evening devotional on phone",
     appAlt:   "Scripture — Philippians 4:6",
@@ -54,54 +59,43 @@ const SCENARIOS = [
 // ── Mobile: one row per scenario, no tabs ────────────────────────────────────
 
 function MobileScenarioRow({ scenario }: { scenario: typeof SCENARIOS[0] }) {
-  const [appIndex, setAppIndex] = useState(0);
-
-  useEffect(() => {
-    if (scenario.apps.length <= 1) return;
-    const id = setInterval(() => {
-      setAppIndex((i) => (i + 1) % scenario.apps.length);
-    }, 2500);
-    return () => clearInterval(id);
-  }, [scenario.apps.length]);
-
   return (
     <div data-animate className="flex flex-col gap-5">
-      {/* Row header */}
-      <div className="flex items-baseline gap-3">
+      {/* Row header — larger title */}
+      <div className="flex flex-col gap-0.5">
         <span className="text-[13px] text-[#73726c]">{scenario.time}</span>
-        <span className="text-[15px] font-medium text-[#141413]">{scenario.label}</span>
+        <span className="text-[28px] font-light leading-tight text-[#141413]">{scenario.label}</span>
       </div>
 
-      {/* Photo — full width, square */}
-      <div className="relative w-full aspect-square rounded-[12px] overflow-hidden">
-        <Image
-          src={scenario.photo}
-          alt={scenario.photoAlt}
-          fill
-          className="object-cover object-center"
-          sizes="100vw"
-        />
-      </div>
-
-      {/* App screenshot — full width, proportional */}
-      <div
-        className="relative w-full rounded-[12px] overflow-hidden"
-        style={{ aspectRatio: "290 / 600", boxShadow: "0px 8px 40px 0px rgba(24,18,18,0.06)" }}
-      >
-        {scenario.apps.map((src, i) => (
+      {/* Photo with app-phone overlay at the bottom */}
+      <div className="relative" style={{ paddingBottom: "20%" }}>
+        {/* Main photo — clipped */}
+        <div className="relative w-full aspect-square rounded-[16px] overflow-hidden">
           <Image
-            key={src}
-            src={src}
+            src={scenario.photo}
+            alt={scenario.photoAlt}
+            fill
+            className="object-cover object-center"
+            sizes="100vw"
+          />
+        </div>
+
+        {/* App-phone card — 2/3 width, overlaps bottom of photo */}
+        <div
+          className="absolute bottom-0 left-1/2 -translate-x-1/2 w-2/3 rounded-[20px] overflow-hidden"
+          style={{
+            boxShadow: "0 16px 48px rgba(0,0,0,0.22)",
+            aspectRatio: "9 / 12",
+          }}
+        >
+          <Image
+            src={scenario.appPhone}
             alt={scenario.appAlt}
             fill
             className="object-cover object-top"
-            sizes="100vw"
-            style={{
-              opacity: i === appIndex ? 1 : 0,
-              transition: "opacity 0.8s ease-in-out",
-            }}
+            sizes="67vw"
           />
-        ))}
+        </div>
       </div>
 
       {/* Text */}
