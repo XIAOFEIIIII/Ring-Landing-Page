@@ -46,9 +46,9 @@ const LABEL_Y = [0.26, 0.50, 0.74, 0.26, 0.50, 0.74]; // top / mid / bottom rows
 
 const N_FRAMES = FRAMES.length;  // 8
 const STEP_VH  = 30;
-const INIT_VH  = 10;
+const INIT_VH  = 50;
 const TAIL_VH  = 60;
-const TOTAL_VH = 100 + INIT_VH + (N_FRAMES - 1) * STEP_VH + TAIL_VH; // 380 vh
+const TOTAL_VH = 100 + INIT_VH + (N_FRAMES - 1) * STEP_VH + TAIL_VH; // 420 vh
 
 // ── Component ─────────────────────────────────────────────────────────────────
 
