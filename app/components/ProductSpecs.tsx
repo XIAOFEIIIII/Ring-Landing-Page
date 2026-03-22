@@ -27,8 +27,9 @@ const LX_FRAC = [0.26, 0.26, 0.26, 0.74, 0.74, 0.74];
 
 const STEP_VH  = 30;
 const INIT_VH  = 10;
+const TAIL_VH  = 60; // dwell after last spec is revealed
 const N        = SPECS.length;
-const TOTAL_VH = 100 + INIT_VH + (N - 1) * STEP_VH; // ~260 vh
+const TOTAL_VH = 100 + INIT_VH + (N - 1) * STEP_VH + TAIL_VH; // ~320 vh
 
 export default function ProductSpecs() {
   const containerRef = useRef<HTMLDivElement>(null);
