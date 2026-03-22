@@ -17,53 +17,51 @@ const FRAMES = [
 ];
 
 const SPECS = [
-  { title: "Private Mic",          desc: "Capture at whisper level. Keep recording for up to 60 mins.",                              side: "left"  },
-  { title: "Sensors",              desc: "PPG — heart rate, HRV, stress & emotion. Temperature. Accelerometer.",                     side: "left"  },
-  { title: "Light Vibrations",     desc: "Multiple patterns, fully customizable.",                                                    side: "left"  },
-  { title: "Quality Materials",    desc: "Ceramic body with seamless stainless steel interior.",                                      side: "right" },
-  { title: "Water Proof",          desc: "Water resistant for daily use — shower friendly.",                                          side: "right" },
-  { title: "Long-lasting Battery", desc: "3–5 days of battery life.",                                                                side: "right" },
+  { title: "Private Mic",          desc: "Capture at whisper level. Keep recording for up to 60 mins.",         side: "left"  },
+  { title: "Sensors",              desc: "PPG — heart rate, HRV, stress & emotion. Temperature. Accelerometer.", side: "left"  },
+  { title: "Light Vibrations",     desc: "Multiple patterns, fully customizable.",                               side: "left"  },
+  { title: "Quality Materials",    desc: "Ceramic body with seamless stainless steel interior.",                  side: "right" },
+  { title: "Water Proof",          desc: "Water resistant for daily use — shower friendly.",                     side: "right" },
+  { title: "Long-lasting Battery", desc: "3–5 days of battery life.",                                           side: "right" },
 ];
 
-// Frame 0: no specs. Frame 1: specs 0&1. Frame 2: specs 0-3. Frame 3+: all specs.
-const FRAME_TO_SPEC = [-1, 1, 3, 5, 5, 5, 5, 5];
-
-// Ring surface attachment points (offset from viewport center, ring = 240px container)
-const RING_OFFSETS = [
-  { dx:  -75, dy:  -55 }, // Private Mic       top-left
-  { dx: -100, dy:    0 }, // Sensors           mid-left
-  { dx:  -75, dy:   55 }, // Light Vibrations  bot-left
-  { dx:   75, dy:  -55 }, // Quality Materials top-right
-  { dx:  100, dy:    0 }, // Water Proof       mid-right
-  { dx:   75, dy:   55 }, // Long Battery      bot-right
+// Each scroll step either advances the ring frame OR reveals the next spec.
+// Pattern: cut frame → spec A fades in → spec B fades in → cut frame → …
+const STEPS: { frame: number; activeSpec: number }[] = [
+  { frame: 0, activeSpec: -1 }, // 1.png  — no specs yet
+  { frame: 1, activeSpec: -1 }, // → 2.png — ring cuts, still no specs
+  { frame: 1, activeSpec:  0 }, // Private Mic fades in
+  { frame: 1, activeSpec:  1 }, // Sensors fades in
+  { frame: 2, activeSpec:  1 }, // → 3.png
+  { frame: 2, activeSpec:  2 }, // Light Vibrations fades in
+  { frame: 2, activeSpec:  3 }, // Quality Materials fades in
+  { frame: 3, activeSpec:  3 }, // → 4.png
+  { frame: 3, activeSpec:  4 }, // Water Proof fades in
+  { frame: 3, activeSpec:  5 }, // Long-lasting Battery fades in (all shown)
+  { frame: 4, activeSpec:  5 }, // → 5.png  ring keeps spinning
+  { frame: 5, activeSpec:  5 }, // → 6.png
+  { frame: 6, activeSpec:  5 }, // → 7.png
+  { frame: 7, activeSpec:  5 }, // → 8.png
 ];
 
-// Label anchor positions as fractions of viewport size
-const LABEL_X = [0.28, 0.28, 0.28, 0.72, 0.72, 0.72]; // left / right columns
-const LABEL_Y = [0.26, 0.50, 0.74, 0.26, 0.50, 0.74]; // top / mid / bottom rows
+// Label positions (fractions of viewport)
+const LABEL_X = [0.28, 0.28, 0.28, 0.72, 0.72, 0.72];
+const LABEL_Y = [0.26, 0.50, 0.74, 0.26, 0.50, 0.74];
 
 // ── Scroll constants ──────────────────────────────────────────────────────────
 
-const N_FRAMES = FRAMES.length;  // 8
+const N_STEPS  = STEPS.length;   // 14
 const STEP_VH  = 30;
 const INIT_VH  = 50;
 const TAIL_VH  = 60;
-const TOTAL_VH = 100 + INIT_VH + (N_FRAMES - 1) * STEP_VH + TAIL_VH; // 420 vh
+const TOTAL_VH = 100 + INIT_VH + (N_STEPS - 1) * STEP_VH + TAIL_VH; // 600 vh
 
 // ── Component ─────────────────────────────────────────────────────────────────
 
 export default function ProductSpecs() {
   const containerRef = useRef<HTMLDivElement>(null);
-  const [frame, setFrame] = useState(0);
-  const [vp, setVp]       = useState({ w: 1512, h: 860 });
+  const [step, setStep]   = useState(0);
   const rafRef            = useRef<number | null>(null);
-
-  useEffect(() => {
-    const update = () => setVp({ w: window.innerWidth, h: window.innerHeight });
-    update();
-    window.addEventListener("resize", update);
-    return () => window.removeEventListener("resize", update);
-  }, []);
 
   useEffect(() => {
     const onScroll = () => {
@@ -76,8 +74,8 @@ export default function ProductSpecs() {
         const vh       = window.innerHeight;
         const initPx   = (INIT_VH / 100) * vh;
         const stepPx   = (STEP_VH  / 100) * vh;
-        const f = Math.min(N_FRAMES - 1, Math.max(0, Math.floor((scrolled - initPx) / stepPx)));
-        setFrame(prev => prev !== f ? f : prev);
+        const s = Math.min(N_STEPS - 1, Math.max(0, Math.floor((scrolled - initPx) / stepPx)));
+        setStep(prev => prev !== s ? s : prev);
       });
     };
     window.addEventListener("scroll", onScroll, { passive: true });
@@ -88,22 +86,7 @@ export default function ProductSpecs() {
     };
   }, []);
 
-  const activeSpec = FRAME_TO_SPEC[frame];
-
-  const cx = vp.w / 2;
-  const cy = vp.h / 2;
-
-  // Build connection geometry: ring point → knee → label anchor
-  const conns = RING_OFFSETS.map((o, i) => {
-    const isLeft = i < 3;
-    const rx = cx + o.dx;                  // ring attachment x
-    const ry = cy + o.dy;                  // ring attachment y
-    const lx = vp.w * LABEL_X[i];         // label anchor x
-    const ly = vp.h * LABEL_Y[i];         // label anchor y
-    // Knee sits just 20px outside the ring attachment — short diagonal, long horizontal
-    const kneeX = isLeft ? rx - 20 : rx + 20;
-    return { rx, ry, lx, ly, kneeX, isLeft };
-  });
+  const { frame, activeSpec } = STEPS[step];
 
   return (
     <div ref={containerRef} style={{ height: `${TOTAL_VH}vh` }} className="relative">
@@ -132,54 +115,10 @@ export default function ProductSpecs() {
           </div>
         </div>
 
-        {/* ── SVG bent callout lines — cumulative ────────────────────────── */}
-        <svg
-          className="absolute inset-0 pointer-events-none"
-          width={vp.w}
-          height={vp.h}
-          viewBox={`0 0 ${vp.w} ${vp.h}`}
-        >
-          {conns.map((c, i) => {
-            const vis = i <= activeSpec;
-            return (
-              <g key={i}>
-                {/*
-                  Bent line: ring point → knee (same y as label) → label anchor
-                  pathLength="1" lets us animate with strokeDashoffset 1→0
-                */}
-                <polyline
-                  points={`${c.rx},${c.ry} ${c.kneeX},${c.ly} ${c.lx},${c.ly}`}
-                  fill="none"
-                  stroke="#141413"
-                  strokeWidth="0.75"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  pathLength="1"
-                  style={{
-                    strokeDasharray:  1,
-                    strokeDashoffset: vis ? 0 : 1,
-                    transition: "stroke-dashoffset 0.9s cubic-bezier(0.25, 0, 0.2, 1)",
-                  }}
-                />
-                {/* Dot at ring attachment */}
-                <circle
-                  cx={c.rx} cy={c.ry} r={2.5}
-                  fill="#141413"
-                  style={{
-                    opacity: vis ? 1 : 0,
-                    transition: "opacity 0.3s",
-                    transitionDelay: vis ? "750ms" : "0ms",
-                  }}
-                />
-              </g>
-            );
-          })}
-        </svg>
-
-        {/* ── Spec labels — cumulative, at label anchor positions ─────────── */}
+        {/* ── Spec labels — cumulative, one-by-one via scroll steps ──────── */}
         {SPECS.map((spec, i) => {
-          const c   = conns[i];
-          const vis = i <= activeSpec;
+          const isLeft = i < 3;
+          const vis    = i <= activeSpec;
           return (
             <div
               key={spec.title}
@@ -187,14 +126,14 @@ export default function ProductSpecs() {
               style={{
                 left:      `${LABEL_X[i] * 100}%`,
                 top:       `${LABEL_Y[i] * 100}%`,
-                transform: `translate(${c.isLeft ? "calc(-100% - 10px)" : "10px"}, -50%)`,
+                transform: `translate(${isLeft ? "calc(-100% - 10px)" : "10px"}, -50%)`,
                 opacity:    vis ? 1 : 0,
                 filter:     vis ? "blur(0px)" : "blur(4px)",
                 transition: "opacity 0.7s cubic-bezier(0.25,0,0.2,1), filter 0.7s cubic-bezier(0.25,0,0.2,1)",
-                transitionDelay: vis ? "700ms" : "0ms",
+                transitionDelay: vis ? "200ms" : "0ms",
               }}
             >
-              <div className={`flex flex-col gap-0.5 w-[190px] ${c.isLeft ? "text-right" : "text-left"}`}>
+              <div className={`flex flex-col gap-0.5 w-[190px] ${isLeft ? "text-right" : "text-left"}`}>
                 <p className="text-[17px] font-medium text-[#141413] leading-tight">{spec.title}</p>
                 <p className="text-[13px] font-light text-[#73726c] leading-[1.6]">{spec.desc}</p>
               </div>
