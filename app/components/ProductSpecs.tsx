@@ -66,8 +66,11 @@ export default function ProductSpecs() {
         rafRef.current = null;
         const el = containerRef.current;
         if (!el) return;
-        const scrolled = -el.getBoundingClientRect().top;
         const vh       = window.innerHeight;
+        // PRE_VH: start counting before the section fully sticks
+        // (positive = trigger when section is still entering from the bottom)
+        const prePx    = 0.5 * vh;
+        const scrolled = -el.getBoundingClientRect().top + prePx;
         const initPx   = (INIT_VH / 100) * vh;
         const stepPx   = (STEP_VH  / 100) * vh;
         const s = Math.min(N_STEPS - 1, Math.max(0, Math.floor((scrolled - initPx) / stepPx)));
