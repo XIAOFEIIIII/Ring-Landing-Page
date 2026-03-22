@@ -88,9 +88,9 @@ export default function ProductSpecs() {
     <div ref={containerRef} style={{ height: `${TOTAL_VH}vh` }} className="relative">
       <div className="sticky top-0 h-screen overflow-hidden">
 
-        {/* ── Ring frames — stacked, crossfade ───────────────────────────── */}
+        {/* ── Ring frames — stacked, instant cut ─────────────────────────── */}
         <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-          <div className="relative w-[240px] h-[240px]">
+          <div className="relative w-[240px] h-[240px]" data-animate>
             {FRAMES.map((src, i) => (
               <Image
                 key={src}
