@@ -77,7 +77,7 @@ export default function DayInLife() {
       </div>
 
       {/* Tab bar */}
-      <div className="flex border-b border-black/10 mb-12">
+      <div className="flex border-b border-black/10 mb-12" data-animate style={{ transitionDelay: "80ms" }}>
         {SCENARIOS.map((s, i) => (
           <button
             key={s.label}
@@ -104,7 +104,7 @@ export default function DayInLife() {
       <div className="grid gap-[40px] items-start" style={{ gridTemplateColumns: "1fr auto 1fr" }}>
 
         {/* Left — lifestyle photo, square */}
-        <div className="relative w-full aspect-square rounded-[16px] overflow-hidden">
+        <div className="relative w-full aspect-square rounded-[16px] overflow-hidden" data-animate style={{ transitionDelay: "160ms" }}>
           {SCENARIOS.map((s, i) => (
             <Image
               key={s.photo}
@@ -124,7 +124,8 @@ export default function DayInLife() {
         {/* Center — app screenshot, fixed width */}
         <div
           className="relative w-[290px] h-[600px] rounded-[16px] overflow-hidden"
-          style={{ boxShadow: "0px 8px 40px 0px rgba(24,18,18,0.06)" }}
+          data-animate
+          style={{ boxShadow: "0px 8px 40px 0px rgba(24,18,18,0.06)", transitionDelay: "240ms" }}
         >
           {scene.apps.map((src, i) => (
             <Image
@@ -145,7 +146,8 @@ export default function DayInLife() {
         {/* Right — text card, same 1fr width as photo */}
         <div
           className="relative rounded-[16px] p-[40px] bg-[#faf8f5]"
-          style={{ boxShadow: "0px 8px 40px 0px rgba(24,18,18,0.06)" }}
+          data-animate
+          style={{ boxShadow: "0px 8px 40px 0px rgba(24,18,18,0.06)", transitionDelay: "320ms" }}
         >
           {/* Invisible placeholder (longest text) to set stable card height */}
           <p className="invisible text-[24px] leading-[1.6] text-center whitespace-pre-line pointer-events-none" aria-hidden>
