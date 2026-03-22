@@ -100,25 +100,27 @@ export default function DayInLife() {
         ))}
       </div>
 
-      {/* Content: photo (fill) | phone (center, fixed) | text card (fill) */}
-      <div className="flex gap-[40px] items-center">
+      {/* Content: photo (fill) | phone (fixed) | text card (fill) — top-aligned */}
+      <div className="flex gap-[40px] items-start">
 
         {/* Left — lifestyle photo, same width as text card, square */}
-        <div className="flex-1 relative aspect-square rounded-[16px] overflow-hidden">
-          {SCENARIOS.map((s, i) => (
-            <Image
-              key={s.photo}
-              src={s.photo}
-              alt={s.photoAlt}
-              fill
-              className="object-cover object-center"
-              sizes="50vw"
-              style={{
-                opacity: i === active ? 1 : 0,
-                transition: "opacity 0.8s ease-in-out",
-              }}
-            />
-          ))}
+        <div className="flex-1 min-w-0">
+          <div className="relative w-full aspect-square rounded-[16px] overflow-hidden">
+            {SCENARIOS.map((s, i) => (
+              <Image
+                key={s.photo}
+                src={s.photo}
+                alt={s.photoAlt}
+                fill
+                className="object-cover object-center"
+                sizes="40vw"
+                style={{
+                  opacity: i === active ? 1 : 0,
+                  transition: "opacity 0.8s ease-in-out",
+                }}
+              />
+            ))}
+          </div>
         </div>
 
         {/* Center — phone mockup, fixed width */}
@@ -144,8 +146,8 @@ export default function DayInLife() {
 
         {/* Right — text card, hug height, same width as photo */}
         <div
-          className="flex-1 relative rounded-[16px] p-[40px]"
-          style={{ border: "1px solid rgba(31,30,29,0.15)" }}
+          className="flex-1 min-w-0 relative rounded-[16px] p-[40px] bg-[#faf8f5]"
+          style={{ boxShadow: "0px 0px 10px 0px rgba(24,18,18,0.08)" }}
         >
           {/* Reserve height using the longest text so the card doesn't collapse */}
           <p className="invisible text-[24px] leading-[1.6] text-center whitespace-pre-line pointer-events-none" aria-hidden>
