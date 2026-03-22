@@ -29,14 +29,14 @@ const SPECS = [
 // Specs 0 and 3 get two frames; the rest get one.
 const FRAME_TO_SPEC = [0, 0, 1, 2, 3, 3, 4, 5];
 
-// Callout line anchor offsets from ring center (ring container is 480×480)
+// Callout line anchor offsets from ring center (ring container is 240×240)
 const OFFSETS = [
-  { dx: -128, dy: -118 }, // Private Mic       top-left
-  { dx: -175, dy:    0 }, // Sensors           mid-left
-  { dx: -128, dy:  118 }, // Light Vibrations  bot-left
-  { dx:  128, dy: -118 }, // Quality Materials top-right
-  { dx:  175, dy:    0 }, // Water Proof       mid-right
-  { dx:  128, dy:  118 }, // Long Battery      bot-right
+  { dx:  -72, dy:  -62 }, // Private Mic       top-left
+  { dx:  -96, dy:    0 }, // Sensors           mid-left
+  { dx:  -72, dy:   62 }, // Light Vibrations  bot-left
+  { dx:   72, dy:  -62 }, // Quality Materials top-right
+  { dx:   96, dy:    0 }, // Water Proof       mid-right
+  { dx:   72, dy:   62 }, // Long Battery      bot-right
 ];
 
 const LX_FRAC = [0.24, 0.24, 0.24, 0.76, 0.76, 0.76];
@@ -104,7 +104,7 @@ export default function ProductSpecs() {
 
         {/* ── Ring frames — stacked, crossfade ───────────────────────────── */}
         <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-          <div className="relative w-[480px] h-[480px]">
+          <div className="relative w-[240px] h-[240px]">
             {FRAMES.map((src, i) => (
               <Image
                 key={src}
@@ -112,18 +112,20 @@ export default function ProductSpecs() {
                 alt={`Bless Ring angle ${i + 1}`}
                 fill
                 className="object-contain"
-                sizes="480px"
+                sizes="240px"
                 priority={i === 0}
                 style={{
                   opacity:    i === frame ? 1 : 0,
-                  transition: "opacity 0.7s cubic-bezier(0.25, 0, 0.2, 1)",
+                  filter:     i === frame ? "blur(0px)" : "blur(3px)",
+                  transform:  i === frame ? "scale(1)" : "scale(0.97)",
+                  transition: "opacity 1.1s cubic-bezier(0.25, 0, 0.2, 1), filter 1.1s cubic-bezier(0.25, 0, 0.2, 1), transform 1.1s cubic-bezier(0.25, 0, 0.2, 1)",
                 }}
               />
             ))}
           </div>
         </div>
 
-        {/* ── SVG callout lines — only the active spec ───────────────────── */}
+        {/* ── SVG callout lines — cumulative ─────────────────────────────── */}
         <svg
           className="absolute inset-0 pointer-events-none"
           width={vp.w}
@@ -131,7 +133,7 @@ export default function ProductSpecs() {
           viewBox={`0 0 ${vp.w} ${vp.h}`}
         >
           {conns.map((c, i) => {
-            const vis = i === activeSpec;
+            const vis = i <= activeSpec;
             const len = Math.abs(c.lx - c.rx);
             return (
               <g key={i}>
@@ -144,7 +146,7 @@ export default function ProductSpecs() {
                   style={{
                     strokeDasharray:  len,
                     strokeDashoffset: vis ? 0 : len,
-                    transition: "stroke-dashoffset 0.7s cubic-bezier(0.25, 0, 0.2, 1)",
+                    transition: "stroke-dashoffset 0.9s cubic-bezier(0.25, 0, 0.2, 1)",
                   }}
                 />
                 <circle
@@ -153,7 +155,7 @@ export default function ProductSpecs() {
                   style={{
                     opacity: vis ? 1 : 0,
                     transition: "opacity 0.3s",
-                    transitionDelay: vis ? "600ms" : "0ms",
+                    transitionDelay: vis ? "750ms" : "0ms",
                   }}
                 />
               </g>
@@ -161,10 +163,10 @@ export default function ProductSpecs() {
           })}
         </svg>
 
-        {/* ── Spec labels — only active spec visible ──────────────────────── */}
+        {/* ── Spec labels — cumulative ────────────────────────────────────── */}
         {SPECS.map((spec, i) => {
           const c      = conns[i];
-          const vis    = i === activeSpec;
+          const vis    = i <= activeSpec;
           const isLeft = spec.side === "left";
           return (
             <div
@@ -176,8 +178,8 @@ export default function ProductSpecs() {
                 transform: `translate(${isLeft ? "calc(-100% - 14px)" : "14px"}, -50%)`,
                 opacity:    vis ? 1 : 0,
                 filter:     vis ? "blur(0px)" : "blur(4px)",
-                transition: "opacity 0.6s cubic-bezier(0.25,0,0.2,1), filter 0.6s cubic-bezier(0.25,0,0.2,1)",
-                transitionDelay: vis ? "600ms" : "0ms",
+                transition: "opacity 0.7s cubic-bezier(0.25,0,0.2,1), filter 0.7s cubic-bezier(0.25,0,0.2,1)",
+                transitionDelay: vis ? "700ms" : "0ms",
               }}
             >
               <div className={`flex flex-col gap-0.5 w-[200px] ${isLeft ? "text-right" : "text-left"}`}>
