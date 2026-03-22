@@ -102,7 +102,8 @@ function MobileScenarioRow({ scenario }: { scenario: typeof SCENARIOS[0] }) {
 
       {/* Text */}
       <p
-        className="text-[18px] leading-[1.6] text-[#141413] text-right whitespace-pre-line font-light"
+        className="text-[15px] leading-[1.6] text-[#141413] text-right whitespace-pre-line"
+        style={{ fontFamily: "var(--font-lora)", fontStyle: "italic" }}
       >
         {scenario.text}
       </p>
