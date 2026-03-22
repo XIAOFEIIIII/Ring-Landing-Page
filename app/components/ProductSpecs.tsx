@@ -18,7 +18,7 @@ const FRAMES = [
 
 // 3 left, 4 right
 const SPECS = [
-  { title: "Touch to Activate", desc: "Double-tap or press to begin capturing.",                                  side: "left"  },
+  { title: "Touch Control",      desc: "A symbol-guided touch interaction that encourages intentional engagement.", side: "left"  },
   { title: "Private Mic",       desc: "Capture at whisper level. Keep recording for up to 60 mins.",             side: "left"  },
   { title: "Sensors",           desc: "PPG — heart rate, HRV, stress & emotion. Temperature. Accelerometer.",    side: "left"  },
   { title: "Light Vibrations",  desc: "Multiple patterns, fully customizable.",                                   side: "right" },
