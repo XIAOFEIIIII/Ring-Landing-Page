@@ -39,7 +39,7 @@ const RING_OFFSETS = [
 ];
 
 // Label anchor positions as fractions of viewport size
-const LABEL_X = [0.13, 0.13, 0.13, 0.87, 0.87, 0.87]; // left / right columns
+const LABEL_X = [0.28, 0.28, 0.28, 0.72, 0.72, 0.72]; // left / right columns
 const LABEL_Y = [0.26, 0.50, 0.74, 0.26, 0.50, 0.74]; // top / mid / bottom rows
 
 // ── Scroll constants ──────────────────────────────────────────────────────────
@@ -100,7 +100,8 @@ export default function ProductSpecs() {
     const ry = cy + o.dy;                  // ring attachment y
     const lx = vp.w * LABEL_X[i];         // label anchor x
     const ly = vp.h * LABEL_Y[i];         // label anchor y
-    const kneeX = isLeft ? lx + 36 : lx - 36; // bend point x
+    // Knee sits just 20px outside the ring attachment — short diagonal, long horizontal
+    const kneeX = isLeft ? rx - 20 : rx + 20;
     return { rx, ry, lx, ly, kneeX, isLeft };
   });
 
