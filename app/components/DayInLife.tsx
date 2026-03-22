@@ -99,14 +99,20 @@ export default function DayInLife() {
       <div className="flex gap-[60px] items-start">
         {/* Left — lifestyle photo, 620×620 */}
         <div className="relative shrink-0 w-[480px] h-[480px] rounded-[16px] overflow-hidden">
-          <Image
-            key={scene.photo}
-            src={scene.photo}
-            alt={scene.photoAlt}
-            fill
-            className="object-cover object-center"
-            sizes="480px"
-          />
+          {SCENARIOS.map((s, i) => (
+            <Image
+              key={s.photo}
+              src={s.photo}
+              alt={s.photoAlt}
+              fill
+              className="object-cover object-center"
+              sizes="480px"
+              style={{
+                opacity: i === active ? 1 : 0,
+                transition: "opacity 0.8s ease-in-out",
+              }}
+            />
+          ))}
         </div>
 
         {/* Right — phone mockup, 300×620 */}
@@ -114,14 +120,20 @@ export default function DayInLife() {
           className="relative shrink-0 w-[290px] h-[600px] rounded-[36px] overflow-hidden"
           style={{ boxShadow: "0px 8px 40px 0px rgba(24,18,18,0.06)" }}
         >
-          <Image
-            key={scene.apps[appIndex]}
-            src={scene.apps[appIndex]}
-            alt={scene.appAlt}
-            fill
-            className="object-cover object-top"
-            sizes="300px"
-          />
+          {scene.apps.map((src, i) => (
+            <Image
+              key={src}
+              src={src}
+              alt={scene.appAlt}
+              fill
+              className="object-cover object-top"
+              sizes="300px"
+              style={{
+                opacity: i === appIndex ? 1 : 0,
+                transition: "opacity 0.8s ease-in-out",
+              }}
+            />
+          ))}
         </div>
       </div>
     </section>
