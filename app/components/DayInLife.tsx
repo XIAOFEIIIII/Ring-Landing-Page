@@ -9,6 +9,7 @@ const SCENARIOS = [
     label: "Catching a dream",
     photo: "/images/day-in-life/1-photo.jpg",
     appPhone: "/images/day-in-life/1-app-phone.jpg",
+    appPhoneW: 1164, appPhoneH: 1192,
     apps:  ["/images/day-in-life/1-app.jpg"],
     photoAlt: "Woman lying in bed, ring on her finger",
     appAlt:   "Journal app showing morning capture",
@@ -19,6 +20,7 @@ const SCENARIOS = [
     label: "When tension rises",
     photo: "/images/day-in-life/2-photo.jpg",
     appPhone: "/images/day-in-life/2-app-phone.jpg",
+    appPhoneW: 1164, appPhoneH: 1424,
     apps:  ["/images/day-in-life/2-app.jpg"],
     photoAlt: "Man pausing, hands folded over laptop",
     appAlt:   "Mood app showing Uneasy state at 11:00",
@@ -29,6 +31,7 @@ const SCENARIOS = [
     label: "Praying for a friend",
     photo: "/images/day-in-life/3-photo.jpg",
     appPhone: "/images/day-in-life/3-app-phone.jpg",
+    appPhoneW: 1160, appPhoneH: 1424,
     apps:  ["/images/day-in-life/3-app.jpg"],
     photoAlt: "Hands with Bless Ring, reaching out",
     appAlt:   "Community prayer feed",
@@ -39,6 +42,7 @@ const SCENARIOS = [
     label: "At Bible study",
     photo: "/images/day-in-life/4-photo.jpg",
     appPhone: "/images/day-in-life/4-app-phone.jpg",
+    appPhoneW: 1160, appPhoneH: 836,
     apps:  ["/images/day-in-life/4-app.jpg", "/images/day-in-life/4-app_1.jpg"],
     photoAlt: "Couple reading Bible together",
     appAlt:   "Sermon notes — Ephesians 2:10",
@@ -49,6 +53,7 @@ const SCENARIOS = [
     label: "Evening prayer",
     photo: "/images/day-in-life/5-photo.jpg",
     appPhone: "/images/day-in-life/5-app-phone.jpg",
+    appPhoneW: 1608, appPhoneH: 1768,
     apps:  ["/images/day-in-life/5-app.jpg"],
     photoAlt: "Woman scrolling evening devotional on phone",
     appAlt:   "Scripture — Philippians 4:6",
@@ -67,9 +72,9 @@ function MobileScenarioRow({ scenario }: { scenario: typeof SCENARIOS[0] }) {
         <span className="text-[28px] font-light leading-tight text-[#141413]">{scenario.label}</span>
       </div>
 
-      {/* Photo with app-phone overlay at the bottom */}
-      <div className="relative" style={{ paddingBottom: "20%" }}>
-        {/* Main photo — clipped */}
+      {/* Photo + app-phone card stacked */}
+      <div className="flex flex-col">
+        {/* Main photo */}
         <div className="relative w-full aspect-square rounded-[16px] overflow-hidden">
           <Image
             src={scenario.photo}
@@ -80,19 +85,16 @@ function MobileScenarioRow({ scenario }: { scenario: typeof SCENARIOS[0] }) {
           />
         </div>
 
-        {/* App-phone card — 2/3 width, overlaps bottom of photo */}
-        <div
-          className="absolute bottom-0 left-1/2 -translate-x-1/2 w-2/3 rounded-[20px] overflow-hidden"
-          style={{
-            boxShadow: "0 16px 48px rgba(0,0,0,0.22)",
-            aspectRatio: "9 / 12",
-          }}
+        {/* App-phone card — 2/3 width, negative margin overlaps photo bottom */}
+        <div className="self-center w-2/3 relative z-10 rounded-[16px] overflow-hidden -mt-[28%]"
+          style={{ boxShadow: "0 16px 48px rgba(0,0,0,0.20)" }}
         >
           <Image
             src={scenario.appPhone}
             alt={scenario.appAlt}
-            fill
-            className="object-cover object-top"
+            width={scenario.appPhoneW}
+            height={scenario.appPhoneH}
+            style={{ width: "100%", height: "auto", display: "block" }}
             sizes="67vw"
           />
         </div>
