@@ -103,8 +103,8 @@ export default function DayInLife() {
       {/* Content: photo (fill) | phone (center, fixed) | text card (fill) */}
       <div className="flex gap-[40px] items-center">
 
-        {/* Left — lifestyle photo, fills remaining space */}
-        <div className="flex-1 relative h-[540px] rounded-[16px] overflow-hidden">
+        {/* Left — lifestyle photo, same width as text card, square */}
+        <div className="flex-1 relative aspect-square rounded-[16px] overflow-hidden">
           {SCENARIOS.map((s, i) => (
             <Image
               key={s.photo}
