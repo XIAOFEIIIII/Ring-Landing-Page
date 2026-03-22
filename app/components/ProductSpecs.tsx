@@ -25,8 +25,8 @@ const SPECS = [
   { title: "Long-lasting Battery", desc: "3–5 days of battery life.",                                                                side: "right" },
 ];
 
-// Frame 0–5: one new spec per frame. Frames 6–7: ring keeps spinning, all specs stay.
-const FRAME_TO_SPEC = [0, 1, 2, 3, 4, 5, 5, 5];
+// Frame 0: no specs. Frame 1: specs 0&1. Frame 2: specs 0-3. Frame 3+: all specs.
+const FRAME_TO_SPEC = [-1, 1, 3, 5, 5, 5, 5, 5];
 
 // Ring surface attachment points (offset from viewport center, ring = 240px container)
 const RING_OFFSETS = [
