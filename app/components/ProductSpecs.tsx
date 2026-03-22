@@ -10,10 +10,6 @@ const FRAMES = [
   "/images/Ring Spinning/2.png",
   "/images/Ring Spinning/3.png",
   "/images/Ring Spinning/4.png",
-  "/images/Ring Spinning/5.png",
-  "/images/Ring Spinning/6.png",
-  "/images/Ring Spinning/7.png",
-  "/images/Ring Spinning/8.png",
 ];
 
 const SPECS = [
@@ -25,23 +21,16 @@ const SPECS = [
   { title: "Long-lasting Battery", desc: "3–5 days of battery life.",                                           side: "right" },
 ];
 
-// Each scroll step either advances the ring frame OR reveals the next spec.
-// Pattern: cut frame → spec A fades in → spec B fades in → cut frame → …
+// Cut frame and reveal first spec happen simultaneously.
+// Second spec of each pair appears one step later (ring stays).
 const STEPS: { frame: number; activeSpec: number }[] = [
-  { frame: 0, activeSpec: -1 }, // 1.png  — no specs yet
-  { frame: 1, activeSpec: -1 }, // → 2.png — ring cuts, still no specs
-  { frame: 1, activeSpec:  0 }, // Private Mic fades in
-  { frame: 1, activeSpec:  1 }, // Sensors fades in
-  { frame: 2, activeSpec:  1 }, // → 3.png
-  { frame: 2, activeSpec:  2 }, // Light Vibrations fades in
-  { frame: 2, activeSpec:  3 }, // Quality Materials fades in
-  { frame: 3, activeSpec:  3 }, // → 4.png
-  { frame: 3, activeSpec:  4 }, // Water Proof fades in
-  { frame: 3, activeSpec:  5 }, // Long-lasting Battery fades in (all shown)
-  { frame: 4, activeSpec:  5 }, // → 5.png  ring keeps spinning
-  { frame: 5, activeSpec:  5 }, // → 6.png
-  { frame: 6, activeSpec:  5 }, // → 7.png
-  { frame: 7, activeSpec:  5 }, // → 8.png
+  { frame: 0, activeSpec: -1 }, // 1.png — no specs
+  { frame: 1, activeSpec:  0 }, // → 2.png + Private Mic
+  { frame: 1, activeSpec:  1 }, // Sensors
+  { frame: 2, activeSpec:  2 }, // → 3.png + Light Vibrations
+  { frame: 2, activeSpec:  3 }, // Quality Materials
+  { frame: 3, activeSpec:  4 }, // → 4.png + Water Proof
+  { frame: 3, activeSpec:  5 }, // Long-lasting Battery
 ];
 
 // Label positions (fractions of viewport)
@@ -50,11 +39,11 @@ const LABEL_Y = [0.26, 0.50, 0.74, 0.26, 0.50, 0.74];
 
 // ── Scroll constants ──────────────────────────────────────────────────────────
 
-const N_STEPS  = STEPS.length;   // 14
+const N_STEPS  = STEPS.length;   // 7
 const STEP_VH  = 30;
-const INIT_VH  = 50;
+const INIT_VH  = 20;
 const TAIL_VH  = 60;
-const TOTAL_VH = 100 + INIT_VH + (N_STEPS - 1) * STEP_VH + TAIL_VH; // 600 vh
+const TOTAL_VH = 100 + INIT_VH + (N_STEPS - 1) * STEP_VH + TAIL_VH; // 360 vh
 
 // ── Component ─────────────────────────────────────────────────────────────────
 
