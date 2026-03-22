@@ -100,8 +100,7 @@ function MobileScenarioRow({ scenario }: { scenario: typeof SCENARIOS[0] }) {
 
       {/* Text */}
       <p
-        className="text-[18px] leading-[1.6] text-[#141413] text-right whitespace-pre-line"
-        style={{ fontFamily: "var(--font-lora)", fontStyle: "italic" }}
+        className="text-[18px] leading-[1.6] text-[#141413] text-right whitespace-pre-line font-light"
       >
         {scenario.text}
       </p>
@@ -152,7 +151,7 @@ function DesktopDayInLife() {
       </div>
 
       {/* Grid: photo (1fr) | phone (auto) | text (1fr) */}
-      <div className="grid gap-[40px] items-center" style={{ gridTemplateColumns: "1fr auto 1fr" }}>
+      <div className="grid gap-[40px] items-start" style={{ gridTemplateColumns: "1fr auto 1fr" }}>
 
         {/* Left — lifestyle photo, square */}
         <div className="relative w-full aspect-square rounded-[16px] overflow-hidden" data-animate style={{ transitionDelay: "100ms" }}>
@@ -198,7 +197,7 @@ function DesktopDayInLife() {
         <div
           className="relative text-[18px] leading-[1.6] text-[#141413] text-right"
           data-animate
-          style={{ fontFamily: "var(--font-lora)", fontStyle: "italic", transitionDelay: "600ms" }}
+          style={{ transitionDelay: "600ms" }}
         >
           {SCENARIOS.map((s, i) => (
             <p
@@ -208,6 +207,7 @@ function DesktopDayInLife() {
                 opacity: i === active ? 1 : 0,
                 transition: "opacity 0.8s ease-in-out",
                 textAlign: "right",
+                fontStyle: "normal",
               }}
             >
               {s.text}
