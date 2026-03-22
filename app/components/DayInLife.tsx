@@ -69,7 +69,7 @@ function MobileScenarioRow({ scenario }: { scenario: typeof SCENARIOS[0] }) {
       {/* Row header — larger title */}
       <div className="flex flex-col gap-0.5">
         <span className="text-[13px] text-[#73726c]">{scenario.time}</span>
-        <span className="text-[28px] font-light leading-tight text-[#141413]">{scenario.label}</span>
+        <span className="text-[22px] font-light leading-tight text-[#141413]">{scenario.label}</span>
       </div>
 
       {/* Photo + app-phone card stacked */}
@@ -152,32 +152,51 @@ function DesktopDayInLife() {
         ))}
       </div>
 
-      {/* Grid: photo (1fr) | phone (auto) | text (1fr) */}
-      <div className="grid gap-[40px] items-start" style={{ gridTemplateColumns: "1fr auto 1fr" }}>
+      {/* 2-col layout: [photo + text below] | [app screenshot] */}
+      <div className="flex gap-6 items-start justify-center">
 
-        {/* Left — lifestyle photo, square */}
-        <div className="relative w-full aspect-square rounded-[16px] overflow-hidden" data-animate style={{ transitionDelay: "100ms" }}>
-          {SCENARIOS.map((s, i) => (
-            <Image
-              key={s.photo}
-              src={s.photo}
-              alt={s.photoAlt}
-              fill
-              className="object-cover object-center"
-              sizes="40vw"
-              style={{
-                opacity: i === active ? 1 : 0,
-                transition: "opacity 0.8s ease-in-out",
-              }}
-            />
-          ))}
+        {/* Left — photo (square) + text below */}
+        <div className="w-[480px] shrink-0 flex flex-col gap-6">
+          <div className="relative w-full aspect-square rounded-[16px] overflow-hidden" data-animate style={{ transitionDelay: "100ms" }}>
+            {SCENARIOS.map((s, i) => (
+              <Image
+                key={s.photo}
+                src={s.photo}
+                alt={s.photoAlt}
+                fill
+                className="object-cover object-center"
+                sizes="50vw"
+                style={{ opacity: i === active ? 1 : 0, transition: "opacity 0.8s ease-in-out" }}
+              />
+            ))}
+          </div>
+
+          {/* Text below photo */}
+          <div
+            className="relative text-[18px] leading-[1.6] text-[#141413]"
+            data-animate
+            style={{ fontFamily: "var(--font-lora)", transitionDelay: "400ms" }}
+          >
+            {SCENARIOS.map((s, i) => (
+              <p
+                key={s.label}
+                className="absolute inset-0 whitespace-pre-line"
+                style={{ opacity: i === active ? 1 : 0, transition: "opacity 0.8s ease-in-out" }}
+              >
+                {s.text}
+              </p>
+            ))}
+            <p className="invisible pointer-events-none whitespace-pre-line" aria-hidden>
+              {SCENARIOS.reduce((a, b) => a.text.length > b.text.length ? a : b).text}
+            </p>
+          </div>
         </div>
 
-        {/* Center — app screenshot */}
+        {/* Right — app screenshot */}
         <div
-          className="relative w-[290px] h-[600px] rounded-[16px] overflow-hidden"
+          className="relative w-[290px] h-[600px] rounded-[16px] overflow-hidden shrink-0"
           data-animate
-          style={{ boxShadow: "0px 8px 40px 0px rgba(24,18,18,0.06)", transitionDelay: "350ms" }}
+          style={{ boxShadow: "0px 8px 40px 0px rgba(24,18,18,0.06)", transitionDelay: "250ms" }}
         >
           {scene.apps.map((src, i) => (
             <Image
@@ -187,38 +206,9 @@ function DesktopDayInLife() {
               fill
               className="object-cover object-top"
               sizes="300px"
-              style={{
-                opacity: i === appIndex ? 1 : 0,
-                transition: "opacity 0.8s ease-in-out",
-              }}
+              style={{ opacity: i === appIndex ? 1 : 0, transition: "opacity 0.8s ease-in-out" }}
             />
           ))}
-        </div>
-
-        {/* Right — text, no card */}
-        <div
-          className="relative text-[18px] leading-[1.6] text-[#141413] text-right"
-          data-animate
-          style={{ transitionDelay: "600ms" }}
-        >
-          {SCENARIOS.map((s, i) => (
-            <p
-              key={s.label}
-              className="absolute inset-0 flex items-center justify-end whitespace-pre-line"
-              style={{
-                opacity: i === active ? 1 : 0,
-                transition: "opacity 0.8s ease-in-out",
-                textAlign: "right",
-                fontStyle: "normal",
-              }}
-            >
-              {s.text}
-            </p>
-          ))}
-          {/* Invisible placeholder for stable height */}
-          <p className="invisible pointer-events-none whitespace-pre-line" aria-hidden>
-            {SCENARIOS.reduce((a, b) => a.text.length > b.text.length ? a : b).text}
-          </p>
         </div>
 
       </div>
@@ -234,7 +224,7 @@ export default function DayInLife() {
 
       {/* Title */}
       <div className="mb-12 lg:mb-24" data-animate>
-        <h2 className="text-[40px] lg:text-[72px] font-light leading-[1.02] text-[#141413]">
+        <h2 className="text-[30px] lg:text-[72px] font-light leading-[1.02] text-[#141413]">
           A Day with{" "}
           <em style={{ fontFamily: "var(--font-lora)", fontStyle: "italic" }}>Bless Ring</em>
         </h2>
