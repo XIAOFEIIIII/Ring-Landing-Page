@@ -142,21 +142,25 @@ export default function DayInLife() {
           ))}
         </div>
 
-        {/* Right — text card, fills remaining space */}
+        {/* Right — text card, hug height, same width as photo */}
         <div
-          className="flex-1 relative h-[540px] rounded-[16px] flex items-center justify-center p-[40px]"
+          className="flex-1 relative rounded-[16px] p-[40px]"
           style={{ border: "1px solid rgba(31,30,29,0.15)" }}
         >
+          {/* Reserve height using the longest text so the card doesn't collapse */}
+          <p className="invisible text-[24px] leading-[1.6] text-center whitespace-pre-line pointer-events-none" aria-hidden>
+            {SCENARIOS.reduce((a, b) => a.text.length > b.text.length ? a : b).text}
+          </p>
           {SCENARIOS.map((s, i) => (
             <p
               key={s.label}
               className="absolute inset-[40px] flex items-center justify-center text-center text-[24px] leading-[1.6] text-[#141413]"
               style={{
-                fontFamily:    "var(--font-lora)",
-                fontStyle:     "italic",
-                whiteSpace:    "pre-line",
-                opacity:       i === active ? 1 : 0,
-                transition:    "opacity 0.8s ease-in-out",
+                fontFamily: "var(--font-lora)",
+                fontStyle:  "italic",
+                whiteSpace: "pre-line",
+                opacity:    i === active ? 1 : 0,
+                transition: "opacity 0.8s ease-in-out",
               }}
             >
               {s.text}
