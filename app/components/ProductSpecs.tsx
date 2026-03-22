@@ -125,7 +125,7 @@ export default function ProductSpecs() {
                   opacity:    i === frame ? 1 : 0,
                   filter:     i === frame ? "blur(0px)" : "blur(3px)",
                   transform:  i === frame ? "scale(1)" : "scale(0.97)",
-                  transition: "opacity 1.1s cubic-bezier(0.25, 0, 0.2, 1), filter 1.1s cubic-bezier(0.25, 0, 0.2, 1), transform 1.1s cubic-bezier(0.25, 0, 0.2, 1)",
+                  transition: "opacity 0.4s cubic-bezier(0.25, 0, 0.2, 1), filter 0.4s cubic-bezier(0.25, 0, 0.2, 1), transform 0.4s cubic-bezier(0.25, 0, 0.2, 1)",
                 }}
               />
             ))}
