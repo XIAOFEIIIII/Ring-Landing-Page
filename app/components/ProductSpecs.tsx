@@ -101,10 +101,7 @@ export default function ProductSpecs() {
                 sizes="240px"
                 priority={i === 0}
                 style={{
-                  opacity:    i === frame ? 1 : 0,
-                  filter:     i === frame ? "blur(0px)" : "blur(3px)",
-                  transform:  i === frame ? "scale(1)" : "scale(0.97)",
-                  transition: "opacity 0.4s cubic-bezier(0.25, 0, 0.2, 1), filter 0.4s cubic-bezier(0.25, 0, 0.2, 1), transform 0.4s cubic-bezier(0.25, 0, 0.2, 1)",
+                  opacity: i === frame ? 1 : 0,
                 }}
               />
             ))}
@@ -126,7 +123,7 @@ export default function ProductSpecs() {
                 opacity:    vis ? 1 : 0,
                 filter:     vis ? "blur(0px)" : "blur(4px)",
                 transition: "opacity 0.7s cubic-bezier(0.25,0,0.2,1), filter 0.7s cubic-bezier(0.25,0,0.2,1)",
-                transitionDelay: vis ? "200ms" : "0ms",
+                transitionDelay: "0ms",
               }}
             >
               <div className={`flex flex-col gap-0.5 w-[190px] ${isLeft ? "text-right" : "text-left"}`}>
