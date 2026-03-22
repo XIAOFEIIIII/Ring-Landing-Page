@@ -21,11 +21,11 @@ const SPECS = [
   { title: "Long-lasting Battery", desc: "3–5 days of battery life.",                                           side: "right" },
 ];
 
-// Cut frame and reveal first spec happen simultaneously.
-// Second spec of each pair appears one step later (ring stays).
+// First frame cut happens alone (earlier). Subsequent cuts are simultaneous with spec.
 const STEPS: { frame: number; activeSpec: number }[] = [
   { frame: 0, activeSpec: -1 }, // 1.png — no specs
-  { frame: 1, activeSpec:  0 }, // → 2.png + Private Mic
+  { frame: 1, activeSpec: -1 }, // → 2.png alone (early cut, no spec yet)
+  { frame: 1, activeSpec:  0 }, // Private Mic
   { frame: 1, activeSpec:  1 }, // Sensors
   { frame: 2, activeSpec:  2 }, // → 3.png + Light Vibrations
   { frame: 2, activeSpec:  3 }, // Quality Materials
@@ -41,11 +41,11 @@ const LABEL_Y = [0.36, 0.50, 0.64, 0.36, 0.50, 0.64];
 
 // ── Scroll constants ──────────────────────────────────────────────────────────
 
-const N_STEPS  = STEPS.length;   // 7
+const N_STEPS  = STEPS.length;   // 8
 const STEP_VH  = 30;
-const INIT_VH  = 20;
+const INIT_VH  = 5;
 const TAIL_VH  = 60;
-const TOTAL_VH = 100 + INIT_VH + (N_STEPS - 1) * STEP_VH + TAIL_VH; // 360 vh
+const TOTAL_VH = 100 + INIT_VH + (N_STEPS - 1) * STEP_VH + TAIL_VH; // 375 vh
 
 // ── Component ─────────────────────────────────────────────────────────────────
 
