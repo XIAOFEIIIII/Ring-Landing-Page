@@ -17,36 +17,37 @@ const FRAMES = [
 ];
 
 const SPECS = [
-  { title: "Private Mic",          desc: "Capture at whisper level. Keep recording for up to 60 mins.",                                    side: "left"  },
-  { title: "Sensors",              desc: "PPG — heart rate, HRV, stress & emotion. Temperature trends. Accelerometer for movement.",        side: "left"  },
-  { title: "Light Vibrations",     desc: "Multiple patterns, fully customizable.",                                                           side: "left"  },
-  { title: "Quality Materials",    desc: "Ceramic body with seamless stainless steel interior.",                                             side: "right" },
-  { title: "Water Proof",          desc: "Water resistant for daily use — shower friendly.",                                                 side: "right" },
-  { title: "Long-lasting Battery", desc: "3–5 days of battery life.",                                                                       side: "right" },
+  { title: "Private Mic",          desc: "Capture at whisper level. Keep recording for up to 60 mins.",                              side: "left"  },
+  { title: "Sensors",              desc: "PPG — heart rate, HRV, stress & emotion. Temperature. Accelerometer.",                     side: "left"  },
+  { title: "Light Vibrations",     desc: "Multiple patterns, fully customizable.",                                                    side: "left"  },
+  { title: "Quality Materials",    desc: "Ceramic body with seamless stainless steel interior.",                                      side: "right" },
+  { title: "Water Proof",          desc: "Water resistant for daily use — shower friendly.",                                          side: "right" },
+  { title: "Long-lasting Battery", desc: "3–5 days of battery life.",                                                                side: "right" },
 ];
 
-// Each of the 8 frames maps to one spec index.
-// Specs 0 and 3 get two frames; the rest get one.
-const FRAME_TO_SPEC = [0, 0, 1, 2, 3, 3, 4, 5];
+// Frame 0–5: one new spec per frame. Frames 6–7: ring keeps spinning, all specs stay.
+const FRAME_TO_SPEC = [0, 1, 2, 3, 4, 5, 5, 5];
 
-// Callout line anchor offsets from ring center (ring container is 240×240)
-const OFFSETS = [
-  { dx:  -72, dy:  -62 }, // Private Mic       top-left
-  { dx:  -96, dy:    0 }, // Sensors           mid-left
-  { dx:  -72, dy:   62 }, // Light Vibrations  bot-left
-  { dx:   72, dy:  -62 }, // Quality Materials top-right
-  { dx:   96, dy:    0 }, // Water Proof       mid-right
-  { dx:   72, dy:   62 }, // Long Battery      bot-right
+// Ring surface attachment points (offset from viewport center, ring = 240px container)
+const RING_OFFSETS = [
+  { dx:  -75, dy:  -55 }, // Private Mic       top-left
+  { dx: -100, dy:    0 }, // Sensors           mid-left
+  { dx:  -75, dy:   55 }, // Light Vibrations  bot-left
+  { dx:   75, dy:  -55 }, // Quality Materials top-right
+  { dx:  100, dy:    0 }, // Water Proof       mid-right
+  { dx:   75, dy:   55 }, // Long Battery      bot-right
 ];
 
-const LX_FRAC = [0.24, 0.24, 0.24, 0.76, 0.76, 0.76];
+// Label anchor positions as fractions of viewport size
+const LABEL_X = [0.13, 0.13, 0.13, 0.87, 0.87, 0.87]; // left / right columns
+const LABEL_Y = [0.26, 0.50, 0.74, 0.26, 0.50, 0.74]; // top / mid / bottom rows
 
 // ── Scroll constants ──────────────────────────────────────────────────────────
 
-const N_FRAMES = FRAMES.length;   // 8
+const N_FRAMES = FRAMES.length;  // 8
 const STEP_VH  = 30;
 const INIT_VH  = 10;
-const TAIL_VH  = 60;              // dwell after last frame
+const TAIL_VH  = 60;
 const TOTAL_VH = 100 + INIT_VH + (N_FRAMES - 1) * STEP_VH + TAIL_VH; // 380 vh
 
 // ── Component ─────────────────────────────────────────────────────────────────
@@ -91,12 +92,17 @@ export default function ProductSpecs() {
 
   const cx = vp.w / 2;
   const cy = vp.h / 2;
-  const conns = OFFSETS.map((o, i) => ({
-    rx: cx + o.dx,
-    ry: cy + o.dy,
-    lx: vp.w * LX_FRAC[i],
-    ly: cy + o.dy,
-  }));
+
+  // Build connection geometry: ring point → knee → label anchor
+  const conns = RING_OFFSETS.map((o, i) => {
+    const isLeft = i < 3;
+    const rx = cx + o.dx;                  // ring attachment x
+    const ry = cy + o.dy;                  // ring attachment y
+    const lx = vp.w * LABEL_X[i];         // label anchor x
+    const ly = vp.h * LABEL_Y[i];         // label anchor y
+    const kneeX = isLeft ? lx + 36 : lx - 36; // bend point x
+    return { rx, ry, lx, ly, kneeX, isLeft };
+  });
 
   return (
     <div ref={containerRef} style={{ height: `${TOTAL_VH}vh` }} className="relative">
@@ -125,7 +131,7 @@ export default function ProductSpecs() {
           </div>
         </div>
 
-        {/* ── SVG callout lines — cumulative ─────────────────────────────── */}
+        {/* ── SVG bent callout lines — cumulative ────────────────────────── */}
         <svg
           className="absolute inset-0 pointer-events-none"
           width={vp.w}
@@ -134,21 +140,27 @@ export default function ProductSpecs() {
         >
           {conns.map((c, i) => {
             const vis = i <= activeSpec;
-            const len = Math.abs(c.lx - c.rx);
             return (
               <g key={i}>
-                <line
-                  x1={c.rx} y1={c.ry}
-                  x2={c.lx} y2={c.ly}
+                {/*
+                  Bent line: ring point → knee (same y as label) → label anchor
+                  pathLength="1" lets us animate with strokeDashoffset 1→0
+                */}
+                <polyline
+                  points={`${c.rx},${c.ry} ${c.kneeX},${c.ly} ${c.lx},${c.ly}`}
+                  fill="none"
                   stroke="#141413"
                   strokeWidth="0.75"
                   strokeLinecap="round"
+                  strokeLinejoin="round"
+                  pathLength="1"
                   style={{
-                    strokeDasharray:  len,
-                    strokeDashoffset: vis ? 0 : len,
+                    strokeDasharray:  1,
+                    strokeDashoffset: vis ? 0 : 1,
                     transition: "stroke-dashoffset 0.9s cubic-bezier(0.25, 0, 0.2, 1)",
                   }}
                 />
+                {/* Dot at ring attachment */}
                 <circle
                   cx={c.rx} cy={c.ry} r={2.5}
                   fill="#141413"
@@ -163,26 +175,25 @@ export default function ProductSpecs() {
           })}
         </svg>
 
-        {/* ── Spec labels — cumulative ────────────────────────────────────── */}
+        {/* ── Spec labels — cumulative, at label anchor positions ─────────── */}
         {SPECS.map((spec, i) => {
-          const c      = conns[i];
-          const vis    = i <= activeSpec;
-          const isLeft = spec.side === "left";
+          const c   = conns[i];
+          const vis = i <= activeSpec;
           return (
             <div
               key={spec.title}
               className="absolute pointer-events-none"
               style={{
-                left:      `${(c.lx / vp.w) * 100}%`,
-                top:       `${(c.ly / vp.h) * 100}%`,
-                transform: `translate(${isLeft ? "calc(-100% - 14px)" : "14px"}, -50%)`,
+                left:      `${LABEL_X[i] * 100}%`,
+                top:       `${LABEL_Y[i] * 100}%`,
+                transform: `translate(${c.isLeft ? "calc(-100% - 10px)" : "10px"}, -50%)`,
                 opacity:    vis ? 1 : 0,
                 filter:     vis ? "blur(0px)" : "blur(4px)",
                 transition: "opacity 0.7s cubic-bezier(0.25,0,0.2,1), filter 0.7s cubic-bezier(0.25,0,0.2,1)",
                 transitionDelay: vis ? "700ms" : "0ms",
               }}
             >
-              <div className={`flex flex-col gap-0.5 w-[200px] ${isLeft ? "text-right" : "text-left"}`}>
+              <div className={`flex flex-col gap-0.5 w-[190px] ${c.isLeft ? "text-right" : "text-left"}`}>
                 <p className="text-[17px] font-medium text-[#141413] leading-tight">{spec.title}</p>
                 <p className="text-[13px] font-light text-[#73726c] leading-[1.6]">{spec.desc}</p>
               </div>
