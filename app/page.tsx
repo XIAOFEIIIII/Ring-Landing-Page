@@ -146,7 +146,13 @@ export default function Home() {
           </em>
         </h2>
 
-        <div className="flex flex-col items-center" data-animate style={{ transitionDelay: "120ms" }}>
+        <div className="flex flex-col gap-1 text-[16px] lg:text-[18px] font-light leading-[1.6] text-[#3d3d3a] text-center" data-animate style={{ transitionDelay: "80ms" }}>
+          <p>$179 early-bird price (retail $229) — fully refundable</p>
+          <p>Option to add a second ring in May at the same rate</p>
+          <p>Direct access to the founding team</p>
+        </div>
+
+        <div className="flex flex-col items-center" data-animate style={{ transitionDelay: "160ms" }}>
           <button className="flex items-center justify-center h-[52px] px-8 rounded-full bg-[#141413] text-white text-[16px] font-semibold hover:bg-[#2a2a28] transition-colors cursor-pointer">
             Preorder today&nbsp;—&nbsp;$29
           </button>
