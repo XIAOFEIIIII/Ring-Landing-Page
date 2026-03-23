@@ -24,6 +24,7 @@ const STEPS = [
       "The ring reads your body's quiet signals — tension, fatigue, calm, rest. Over time, you'll see not just what you prayed, but what you carried.",
     image: "/images/BeSeen.jpg",
     alt: "Phone showing Bless Ring app with mood and health insights",
+    quality: 95,
   },
 ];
 
@@ -75,6 +76,7 @@ export default function FeatureSections() {
                 fill
                 className="object-cover object-center"
                 sizes="100vw"
+                {...(step.quality ? { quality: step.quality } : {})}
               />
             </div>
             <p className="text-[20px] leading-normal text-[#141413] mb-2">{step.title}</p>
@@ -106,6 +108,7 @@ export default function FeatureSections() {
                   className="object-cover object-center"
                   sizes="(max-width: 1512px) 33vw, 475px"
                   priority={i === 0}
+                  {...(step.quality ? { quality: step.quality } : {})}
                 />
               </div>
             </div>

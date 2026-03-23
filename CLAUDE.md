@@ -16,7 +16,9 @@ No lint or test scripts are configured.
 
 ## Architecture
 
-Single-page marketing site for the "Bless Ring" product. No routing — one page, extracted into focused components.
+Single-page marketing site for the "Bless Ring" product built with **Next.js 16** (App Router) + **Tailwind CSS v4** + TypeScript. No routing — one page, extracted into focused components.
+
+**Figma source** — node `3756-10902` in `figma.com/design/aomYtGjkvHy9Q3OeG2cf7W`. Sizing is pixel-exact to match the Figma design.
 
 ```
 app/
@@ -39,11 +41,13 @@ public/images/                # All product/lifestyle images
 
 **Fonts** — Manrope (sans, weights 300–600) and Lora (serif/italic) loaded via `next/font/google`, exposed as `--font-manrope` and `--font-lora`. Applied inline: `style={{ fontFamily: "var(--font-lora)", fontStyle: "italic" }}`. Tailwind font utilities are not used.
 
+**Responsive layout** — Mobile-first with `lg:` breakpoint (1024px). The hero section uses separate mobile (`lg:hidden`) and desktop (`hidden lg:block`) blocks. Other sections use responsive utilities (`lg:flex-row`, `lg:text-[72px]`, etc.). Mobile padding is `px-5`; desktop is `px-[64px]`.
+
+**Design width** — 1512px. Desktop sections use `max-w-[1512px] mx-auto` with `px-[64px]` padding. `<main>` has `overflowX: "clip"` to prevent horizontal scroll from animations.
+
 **Scroll animations** — Add `data-animate` to any element; `ScrollAnimations.tsx` uses IntersectionObserver to toggle `.is-visible`, which triggers the CSS transition defined in `globals.css`. Use `style={{ transitionDelay: "120ms" }}` for staggered reveals.
 
-**Z-index layering** — `AmbientGlow` renders at `z:0` (fixed). All page content wraps in a `z:1` div in `layout.tsx` to sit above the glow.
-
-**Design width** — 1512px. Sections use `max-w-[1512px] mx-auto` with `px-[64px]` padding. Sizing is pixel-exact to match Figma node `3756-10902`.
+**Z-index layering** — `AmbientGlow` at z:0 (fixed) → page content at z:1 (layout.tsx wrapper) → film grain overlay at z:9999 (`body::after` in globals.css, SVG noise texture at 3.2% opacity).
 
 **Color palette** (CSS vars in `globals.css`, used as Tailwind arbitrary values):
 - `#faf8f5` — page background (`--color-bg`)
@@ -53,7 +57,7 @@ public/images/                # All product/lifestyle images
 - `#bfb5a7` — hero section background fallback
 
 **Page structure** (top to bottom in `app/page.tsx`):
-1. Hero — `h-[836px]`, Hero.png with gradient overlay, headline + preorder CTA
+1. Hero — mobile: full-screen `h-screen`; desktop: `h-[836px]`, Hero.png with gradient overlay, headline + preorder CTA
 2. "Ordinary Days, Faithfully Kept" — two-column intro text
 3. `<FeatureSections />` — journey stepper (Capture / Be Seen / Reflect / Witness) + photos
 4. `<ProductSpecs />` — ring image centered, specs on each side
