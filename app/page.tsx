@@ -16,6 +16,7 @@ export default function Home() {
           fill
           className="object-cover object-center hero-image-animate"
           priority
+          quality={90}
         />
         <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-transparent to-black/50" />
 
@@ -51,6 +52,7 @@ export default function Home() {
           fill
           className="object-cover object-center hero-image-animate"
           priority
+          quality={90}
         />
         {/* Gradient overlay for readability */}
         <div className="absolute inset-0 bg-gradient-to-r from-black/40 via-black/20 to-transparent" />
@@ -149,18 +151,17 @@ export default function Home() {
             </em>
           </h2>
           <p className="text-[16px] lg:text-[18px] font-light leading-[1.6] text-[#3d3d3a]">
-            Bless Ring ships early 2025. Reserve yours today and be among the first to wear it.
+            Lock in $179 early-bird pricing (retail: $229) — full refund available before final purchase
           </p>
         </div>
 
         <div className="flex flex-col items-center gap-4" data-animate style={{ transitionDelay: "120ms" }}>
           <button className="flex items-center justify-center h-[52px] px-8 rounded-full bg-[#141413] text-white text-[16px] font-semibold hover:bg-[#2a2a28] transition-colors cursor-pointer">
-            Pre-order today&nbsp;—&nbsp;$29
+            Preorder today&nbsp;—&nbsp;$29
           </button>
-          <div className="flex flex-col items-center gap-1.5 text-[13px] text-[#73726c] font-light text-center max-w-[420px]">
-            <p>Lock in $179 early-bird pricing (retail: $229) — full refund available before final purchase</p>
-            <p>Get another free early-access ring in May and share feedback with the founding team directly</p>
-          </div>
+          <p className="text-[13px] text-[#73726c] font-light text-center max-w-[420px]">
+            Get another free early-access ring in May and share feedback with the founding team directly
+          </p>
         </div>
       </section>
 

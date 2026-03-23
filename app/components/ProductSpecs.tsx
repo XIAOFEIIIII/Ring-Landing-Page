@@ -131,16 +131,20 @@ function DesktopSpecs() {
     <div ref={containerRef} style={{ height: `${TOTAL_VH}vh` }} className="relative">
       <div className="sticky top-0 h-screen overflow-hidden">
 
-        {/* Ring frames */}
-        <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-          <div className="relative w-[240px] h-[240px]" data-animate>
+        {/* Ring frames — click to advance */}
+        <div className="absolute inset-0 flex items-center justify-center">
+          <div
+            className="relative w-[240px] h-[240px] cursor-pointer"
+            data-animate
+            onClick={() => scrollToStep(step < N_STEPS - 1 ? step + 1 : 0)}
+          >
             {FRAMES.map((src, i) => (
               <Image
                 key={src}
                 src={src}
                 alt={`Bless Ring — ${SPECS[i - 1]?.title ?? "intro"}`}
                 fill
-                className="object-contain"
+                className="object-contain pointer-events-none"
                 sizes="240px"
                 priority={i === 0}
                 style={{ opacity: i === frame ? 1 : 0 }}
