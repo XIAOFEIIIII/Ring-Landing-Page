@@ -94,7 +94,7 @@ export default function Home() {
       {/* ── Core Concept ──────────────────────────────────────────────────── */}
       <section className="flex flex-col lg:flex-row lg:items-start lg:justify-between px-5 py-16 lg:px-[64px] lg:py-[120px] max-w-[1512px] mx-auto w-full gap-10 lg:gap-[40px] flex-wrap">
         {/* Left — headline */}
-        <div className="flex flex-col lg:w-[638px]" data-animate>
+        <div className="flex flex-col gap-3 lg:gap-4 lg:w-[638px]" data-animate>
           <h2 className="text-[40px] lg:text-[72px] leading-[1.02] text-[#3d3d3a] font-light">
             Ordinary Days,
           </h2>
