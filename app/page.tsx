@@ -92,7 +92,7 @@ export default function Home() {
       </section>
 
       {/* ── Core Concept ──────────────────────────────────────────────────── */}
-      <section className="flex flex-col lg:flex-row lg:items-start lg:justify-between px-5 py-16 lg:px-[64px] lg:py-[120px] max-w-[1512px] mx-auto w-full gap-10 lg:gap-[40px]">
+      <section className="flex flex-col lg:flex-row lg:items-start lg:justify-between px-5 py-16 lg:px-[64px] lg:py-[120px] max-w-[1512px] mx-auto w-full gap-10 lg:gap-[40px] flex-wrap">
         {/* Left — headline */}
         <div className="flex flex-col lg:w-[638px]" data-animate>
           <h2 className="text-[40px] lg:text-[72px] leading-[1.02] text-[#3d3d3a] font-light">
@@ -105,7 +105,7 @@ export default function Home() {
 
         {/* Right — body copy */}
         <div
-          className="text-[16px] lg:text-[18px] leading-[1.6] text-[#141413] font-light lg:flex-1 flex flex-col gap-4 lg:pt-[40px]"
+          className="text-[16px] lg:text-[18px] leading-[1.6] text-[#141413] font-light lg:w-[610px] lg:flex-1 lg:min-w-[300px] flex flex-col gap-4 lg:pt-[40px]"
           data-animate
           style={{ transitionDelay: "120ms" }}
         >
