@@ -69,7 +69,7 @@ export default function FeatureSections() {
       <div className="flex flex-col gap-10 px-5 py-10 lg:hidden">
         {STEPS.map((step, i) => (
           <div key={step.title} data-animate style={{ transitionDelay: `${i * 80}ms` }}>
-            <div className="relative w-full aspect-square rounded-[16px] overflow-hidden mb-5">
+            <div className="relative w-full aspect-[3/4] rounded-[16px] overflow-hidden mb-5">
               <Image
                 src={step.image}
                 alt={step.alt}

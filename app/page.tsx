@@ -23,9 +23,9 @@ export default function Home() {
         {/* Headline — top */}
         <div className="relative z-10 pt-28 px-6 text-center">
           <h1 className="text-[34px] font-light leading-tight text-white hero-animate" style={{ animationDelay: "120ms" }}>
-            Catch what your heart whispers{" "}
+            Catch what your heart{" "}
             <em className="not-italic font-normal" style={{ fontFamily: "var(--font-lora)", fontStyle: "italic" }}>
-              before it slips away.
+              Whispers.
             </em>
           </h1>
         </div>
@@ -45,7 +45,7 @@ export default function Home() {
       </section>
 
       {/* ── Hero — desktop ─────────────────────────────────────────────────── */}
-      <section className="hidden lg:block relative h-[836px] overflow-hidden bg-[#bfb5a7]">
+      <section className="hidden lg:block relative h-screen overflow-hidden bg-[#bfb5a7]">
         <Image
           src="/images/Hero.png"
           alt="Bless Ring on a surface"
@@ -57,24 +57,20 @@ export default function Home() {
         {/* Gradient overlay for readability */}
         <div className="absolute inset-0 bg-gradient-to-r from-black/40 via-black/20 to-transparent" />
 
-        <div className="relative z-10 flex flex-col gap-24 h-full pt-40 px-16 max-w-[1512px] mx-auto">
-          <div className="flex flex-col gap-6 text-white">
+        <div className="relative z-10 flex flex-col justify-center h-full px-16 max-w-[1512px] mx-auto">
+          <div className="flex flex-col gap-8 text-white">
             <h1
               className="text-[68px] font-light leading-tight max-w-[900px] hero-animate"
               style={{ animationDelay: "120ms" }}
             >
-              Catch what your heart whispers
-              <br />
+              Catch what your heart{" "}
               <em
                 className="not-italic font-normal"
                 style={{ fontFamily: "var(--font-lora)", fontStyle: "italic" }}
               >
-                before it slips away.
+                Whispers.
               </em>
             </h1>
-          </div>
-
-          <div className="flex flex-col gap-6">
             <p
               className="text-[18px] font-light leading-[1.6] text-white hero-animate max-w-[274px]"
               style={{ animationDelay: "240ms" }}
@@ -91,27 +87,15 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ── Core Concept ──────────────────────────────────────────────────── */}
-      <section className="flex flex-col lg:flex-row lg:items-start lg:justify-between px-5 py-16 lg:px-[64px] lg:py-[120px] max-w-[1512px] mx-auto w-full gap-10 lg:gap-[40px] flex-wrap">
-        {/* Left — headline */}
-        <div className="flex flex-col gap-3 lg:gap-4 lg:w-[638px]" data-animate>
-          <h2 className="text-[40px] lg:text-[72px] leading-[1.02] text-[#3d3d3a] font-light">
+      {/* ── Core Concept — headline ─────────────────────────────────────── */}
+      <section className="flex flex-col items-center px-5 py-16 lg:px-[64px] lg:py-[120px] max-w-[1512px] mx-auto w-full">
+        <div className="flex flex-col gap-3 lg:gap-4 items-center" data-animate>
+          <h2 className="text-[40px] lg:text-[72px] leading-[1.02] text-[#3d3d3a] font-light text-center">
             Ordinary Days,
           </h2>
-          <h2 className="text-[40px] lg:text-[72px] leading-[1.02] text-[#3d3d3a] font-light text-right">
+          <h2 className="text-[40px] lg:text-[72px] leading-[1.02] text-[#3d3d3a] font-light text-center">
             <em style={{ fontFamily: "var(--font-lora)", fontStyle: "italic" }}>Faithfully</em>{" "}Kept
           </h2>
-        </div>
-
-        {/* Right — body copy */}
-        <div
-          className="text-[16px] lg:text-[18px] leading-[1.6] text-[#141413] font-light lg:w-[610px] lg:flex-1 lg:min-w-[300px] flex flex-col gap-4 lg:pt-[40px]"
-          data-animate
-          style={{ transitionDelay: "120ms" }}
-        >
-          <p>The spiritual life doesn't announce itself. It arrives in half-awake thoughts, in the car, in a quiet moment that passes before you can hold it.</p>
-          <p>Bless Ring was made for that gap — between feeling and forgetting.</p>
-          <p>A ring you wear. A practice you return to. A record of how God has been with you, all along.</p>
         </div>
       </section>
 
@@ -119,6 +103,17 @@ export default function Home() {
       <div id="features">
         <FeatureSections />
       </div>
+
+      {/* ── Core Concept — body copy ──────────────────────────────────────── */}
+      <section className="flex justify-center px-5 py-16 lg:px-[64px] lg:pt-[160px] lg:pb-[120px] max-w-[1512px] mx-auto w-full">
+        <div
+          className="text-[20px] lg:text-[24px] leading-[1.6] text-[#141413] font-light max-w-[680px] flex flex-col gap-4 text-center"
+          style={{ fontFamily: "var(--font-lora)", fontStyle: "italic" }}
+          data-animate
+        >
+          <p>The spiritual life doesn&apos;t announce itself. It arrives in a half-awake moment, then passes before you can hold it. Bless Ring was made for that gap — between feeling and forgetting.</p>
+        </div>
+      </section>
 
       {/* ── Scroll-driven Product Specs ───────────────────────────────────── */}
       <div id="specs">
@@ -131,8 +126,9 @@ export default function Home() {
       {/* ── Quote ─────────────────────────────────────────────────────────── */}
       <section className="flex items-center justify-center px-5 py-16 lg:px-[64px] lg:py-[120px]">
         <p
-          className="text-[16px] lg:text-[18px] font-light leading-[1.6] text-[#141413] text-center w-full max-w-[610px]"
+          className="text-[20px] lg:text-[24px] font-light leading-[1.6] text-[#141413] text-center w-full max-w-[680px]"
           data-animate
+          style={{ fontFamily: "var(--font-lora)", fontStyle: "italic" }}
         >
           Someday you'll look back and see the whole story.<br />
           Not just what you asked for —<br />
@@ -143,18 +139,12 @@ export default function Home() {
 
       {/* ── Closing CTA ───────────────────────────────────────────────────── */}
       <section className="flex flex-col items-center justify-center gap-12 px-5 pt-20 pb-16 lg:px-[64px] lg:pt-[160px] lg:pb-[120px]">
-        <div className="flex flex-col items-center gap-5 text-center max-w-[640px]" data-animate>
-          <h2 className="text-[36px] lg:text-[64px] font-light leading-[1.05] text-[#141413]">
-            Begin your{" "}
-            <em style={{ fontFamily: "var(--font-lora)", fontStyle: "italic" }}>
-              practice.
-            </em>
-          </h2>
-          <div className="flex flex-col gap-2 text-[16px] lg:text-[18px] font-light leading-[1.6] text-[#3d3d3a]">
-            <p>Lock in $179 early-bird pricing (retail: $229) — full refund available before final purchase</p>
-            <p>Get another free early-access ring in May and share feedback with the founding team directly</p>
-          </div>
-        </div>
+        <h2 className="text-[36px] lg:text-[64px] font-light leading-[1.05] text-[#141413] text-center" data-animate>
+          Begin your{" "}
+          <em style={{ fontFamily: "var(--font-lora)", fontStyle: "italic" }}>
+            practice.
+          </em>
+        </h2>
 
         <div className="flex flex-col items-center" data-animate style={{ transitionDelay: "120ms" }}>
           <button className="flex items-center justify-center h-[52px] px-8 rounded-full bg-[#141413] text-white text-[16px] font-semibold hover:bg-[#2a2a28] transition-colors cursor-pointer">
