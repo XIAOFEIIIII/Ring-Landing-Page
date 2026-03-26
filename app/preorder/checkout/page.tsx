@@ -48,27 +48,20 @@ function CheckoutForm() {
   return (
     <main className="min-h-screen bg-[#faf8f5]" style={{ overflowX: "clip" }}>
       {/* ── Header ──────────────────────────────────────────────────────── */}
-      <header className="px-5 lg:px-[64px] max-w-[1512px] mx-auto pt-8 lg:pt-10">
-        <Link
-          href="/"
-          className="text-[17px] font-medium tracking-wide text-[#141413] hover:opacity-70 transition-opacity"
-        >
-          Bless Ring
-        </Link>
-      </header>
-
-      {/* ── Content ─────────────────────────────────────────────────────── */}
-      <div className="px-5 lg:px-[64px] max-w-[1512px] mx-auto pt-6 lg:pt-10 pb-20 lg:pb-32">
-        {/* Back link */}
+      <header className="px-5 lg:px-[64px] max-w-[1440px] mx-auto pt-8 lg:pt-10">
         <Link
           href="/preorder"
-          className="inline-flex items-center gap-1.5 text-[14px] text-[#73726c] hover:text-[#141413] transition-colors mb-8 lg:mb-10"
+          className="inline-flex items-center gap-1.5 text-[14px] text-[#73726c] hover:text-[#141413] transition-colors"
         >
           <svg width="14" height="14" viewBox="0 0 16 16" fill="none">
             <path d="M10 12L6 8L10 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
           </svg>
           Return to product
         </Link>
+      </header>
+
+      {/* ── Content ─────────────────────────────────────────────────────── */}
+      <div className="px-5 lg:px-[64px] max-w-[1440px] mx-auto pt-6 lg:pt-10 pb-20 lg:pb-32">
 
         <div className="flex flex-col lg:flex-row lg:gap-24">
           {/* ── Left: Form ──────────────────────────────────────────────── */}
@@ -320,7 +313,7 @@ function CheckoutForm() {
                   <span className="text-[14px] font-medium text-[#141413]">$29</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-[14px] text-[#3d3d3a]">July &mdash; only if you keep it</span>
+                  <span className="text-[14px] text-[#3d3d3a]">July &mdash; final ring</span>
                   <span className="text-[14px] text-[#3d3d3a]">$150</span>
                 </div>
               </div>

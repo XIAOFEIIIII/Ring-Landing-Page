@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef } from "react";
+import { usePathname } from "next/navigation";
 
 // Each blob drifts at a different speed (fraction of scroll)
 const BLOBS = [
@@ -29,8 +30,10 @@ const BLOBS = [
 ];
 
 export default function AmbientGlow() {
+  const pathname = usePathname();
   const refs = useRef<(HTMLDivElement | null)[]>([]);
   const rafRef = useRef<number | null>(null);
+  const hidden = pathname.startsWith("/preorder");
 
   useEffect(() => {
     const onScroll = () => {
@@ -51,6 +54,8 @@ export default function AmbientGlow() {
       if (rafRef.current) cancelAnimationFrame(rafRef.current);
     };
   }, []);
+
+  if (hidden) return null;
 
   return (
     <div

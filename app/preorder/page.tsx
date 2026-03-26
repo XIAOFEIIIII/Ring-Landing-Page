@@ -1,9 +1,24 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useCallback, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
+
+type Slide =
+  | { type: "image"; src: string; alt: string; contain?: boolean }
+  | { type: "video"; src: string };
+
+const CAROUSEL_SLIDES: Slide[] = [
+  { type: "image", src: "/images/ring-product.png", alt: "Bless Ring", contain: true },
+  { type: "video", src: "/images/carousel-1.mp4" },
+  { type: "video", src: "/images/carousel-2.mp4" },
+  { type: "image", src: "/images/carousel-3.jpg", alt: "Bless Ring lifestyle" },
+  { type: "image", src: "/images/carousel-4.jpg", alt: "Bless Ring lifestyle" },
+  { type: "image", src: "/images/carousel-5.jpg", alt: "Bless Ring lifestyle" },
+  { type: "image", src: "/images/carousel-6.jpg", alt: "Bless Ring lifestyle" },
+  { type: "image", src: "/images/carousel-7.jpg", alt: "Bless Ring lifestyle" },
+];
 
 const RING_SIZES = [7, 8, 9, 10];
 
@@ -18,65 +33,148 @@ export default function PreorderPage() {
   const router = useRouter();
   const [selectedSize, setSelectedSize] = useState<number | null>(null);
   const [showSizeGuide, setShowSizeGuide] = useState(false);
+  const [currentSlide, setCurrentSlide] = useState(0);
+  const videoRefs = useRef<(HTMLVideoElement | null)[]>([]);
+  const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  const goTo = useCallback((index: number) => {
+    setCurrentSlide((index + CAROUSEL_SLIDES.length) % CAROUSEL_SLIDES.length);
+  }, []);
+
+  // Auto-advance: 4s for images, wait for video to end for videos
+  useEffect(() => {
+    const slide = CAROUSEL_SLIDES[currentSlide];
+    if (slide.type === "video") {
+      const video = videoRefs.current[currentSlide];
+      if (video) {
+        video.currentTime = 0;
+        video.play().catch(() => {});
+        const onEnded = () => goTo(currentSlide + 1);
+        video.addEventListener("ended", onEnded);
+        return () => video.removeEventListener("ended", onEnded);
+      }
+    }
+    // Pause all videos when not active
+    videoRefs.current.forEach((v, i) => {
+      if (v && i !== currentSlide) v.pause();
+    });
+    timerRef.current = setTimeout(() => goTo(currentSlide + 1), 4000);
+    return () => { if (timerRef.current) clearTimeout(timerRef.current); };
+  }, [currentSlide, goTo]);
 
   return (
-    <main
-      className="min-h-screen"
-      style={{ overflowX: "clip" }}
-    >
-      {/* ── Minimal header ──────────────────────────────────────────────── */}
-      <header className="flex items-center h-[72px] px-5 lg:px-[64px] max-w-[1512px] mx-auto">
+    <main className="min-h-screen bg-[#faf8f5]" style={{ overflowX: "clip" }}>
+      {/* ── Header ──────────────────────────────────────────────────────── */}
+      <header className="px-5 lg:px-[64px] max-w-[1440px] mx-auto pt-8 lg:pt-10">
         <Link
           href="/"
-          className="flex items-center gap-2 text-[14px] text-[#73726c] hover:text-[#141413] transition-colors"
+          className="inline-flex items-center gap-1.5 text-[14px] text-[#73726c] hover:text-[#141413] transition-colors"
         >
-          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" className="mt-px">
+          <svg width="14" height="14" viewBox="0 0 16 16" fill="none">
             <path d="M10 12L6 8L10 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
           </svg>
-          Back
+          Return to home
         </Link>
       </header>
 
-      {/* ── Main content ────────────────────────────────────────────────── */}
-      <div className="px-5 lg:px-[64px] max-w-[1120px] mx-auto pb-20 lg:pb-32">
-        {/* Two-column layout on desktop */}
-        <div className="flex flex-col lg:flex-row lg:gap-20">
+      {/* ── Content ─────────────────────────────────────────────────────── */}
+      <div className="px-5 lg:px-[64px] max-w-[1440px] mx-auto pt-6 lg:pt-10 pb-20 lg:pb-32">
 
-          {/* ── Left column: Product ────────────────────────────────────── */}
+        <div className="flex flex-col lg:flex-row lg:gap-20 lg:justify-center">
+          {/* ── Left: Image carousel + trust signals ───────────────────── */}
           <div className="flex-1 lg:max-w-[520px]">
-            {/* Product image */}
-            <div className="relative w-full aspect-square max-w-[480px] mx-auto lg:mx-0 mb-8 rounded-2xl overflow-hidden bg-[#f0ece6]">
-              <Image
-                src="/images/ring-product.png"
-                alt="Bless Ring"
-                fill
-                className="object-contain p-8"
-                priority
-              />
+            <div className="relative w-full aspect-[5/4] rounded-2xl overflow-hidden bg-[#f0ece6]">
+              {CAROUSEL_SLIDES.map((slide, i) =>
+                slide.type === "image" ? (
+                  <Image
+                    key={slide.src}
+                    src={slide.src}
+                    alt={slide.alt}
+                    fill
+                    className={`transition-opacity duration-700 ease-in-out ${
+                      slide.contain ? "object-contain p-8" : "object-cover"
+                    } ${i === currentSlide ? "opacity-100" : "opacity-0"}`}
+                    priority={i === 0}
+                  />
+                ) : (
+                  <video
+                    key={slide.src}
+                    ref={(el) => { videoRefs.current[i] = el; }}
+                    src={slide.src}
+                    muted
+                    playsInline
+                    className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-700 ease-in-out ${
+                      i === currentSlide ? "opacity-100" : "opacity-0"
+                    }`}
+                  />
+                )
+              )}
+
+              {/* Pill nav — bottom right */}
+              <div className="absolute bottom-4 right-4 flex items-center gap-1.5 bg-white/90 backdrop-blur-sm rounded-full px-2.5 py-1.5">
+                <button
+                  onClick={() => goTo(currentSlide - 1)}
+                  className="w-6 h-6 flex items-center justify-center hover:opacity-60 transition-opacity cursor-pointer"
+                >
+                  <svg width="12" height="12" viewBox="0 0 16 16" fill="none">
+                    <path d="M10 12L6 8L10 4" stroke="#141413" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                  </svg>
+                </button>
+                {CAROUSEL_SLIDES.map((_, i) => (
+                  <button
+                    key={i}
+                    onClick={() => goTo(i)}
+                    className={`rounded-full transition-all duration-300 cursor-pointer ${
+                      i === currentSlide ? "w-5 h-[5px] bg-[#141413]" : "w-[5px] h-[5px] bg-[#141413]/25"
+                    }`}
+                  />
+                ))}
+                <button
+                  onClick={() => goTo(currentSlide + 1)}
+                  className="w-6 h-6 flex items-center justify-center hover:opacity-60 transition-opacity cursor-pointer"
+                >
+                  <svg width="12" height="12" viewBox="0 0 16 16" fill="none">
+                    <path d="M6 4L10 8L6 12" stroke="#141413" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                  </svg>
+                </button>
+              </div>
             </div>
 
-            {/* Trust signals — desktop only */}
-            <div className="hidden lg:flex flex-col gap-4 mt-8 pl-1">
-              <TrustItem
-                icon="shield"
-                title="$29 fully refundable"
-                desc="Change your mind anytime — full refund, no questions."
-              />
-              <TrustItem
-                icon="truck"
-                title="Free trial ring in May"
-                desc="Try before you commit. Keep it either way."
-              />
-              <TrustItem
-                icon="lock"
-                title="Secure payment via Stripe"
-                desc="Your payment details are handled securely."
-              />
+            {/* ── Trust signals ──────────────────────────────────────────── */}
+            <div className="grid grid-cols-3 gap-4 mt-8 mb-8 lg:mb-0">
+              <div className="flex flex-col items-center text-center">
+                <div className="w-11 h-11 rounded-full bg-[#f0ece6] flex items-center justify-center mb-3">
+                  {/* Shield with checkmark */}
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#141413" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M12 2L3 6.5v5c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12v-5L12 2z"/>
+                    <path d="M9 12.5l2 2 4.5-4.5" strokeWidth="1.4"/>
+                  </svg>
+                </div>
+                <span className="text-[13px] font-medium text-[#141413] leading-[1.45]">Fully refundable</span>
+              </div>
+              <div className="flex flex-col items-center text-center">
+                <div className="w-11 h-11 rounded-full bg-[#f0ece6] flex items-center justify-center mb-3">
+                  {/* Shipping box — free shipping */}
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#141413" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round">
+                    <rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/>
+                  </svg>
+                </div>
+                <span className="text-[13px] font-medium text-[#141413] leading-[1.45]">Free shipping</span>
+              </div>
+              <div className="flex flex-col items-center text-center">
+                <div className="w-11 h-11 rounded-full bg-[#f0ece6] flex items-center justify-center mb-3">
+                  {/* Lightning bolt — charger included */}
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#141413" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/>
+                  </svg>
+                </div>
+                <span className="text-[13px] font-medium text-[#141413] leading-[1.45]">Charger included</span>
+              </div>
             </div>
           </div>
 
-          {/* ── Right column: Order details ─────────────────────────────── */}
-          <div className="flex-1 lg:max-w-[480px]">
+          {/* ── Right: Order details ─────────────────────────────────────── */}
+          <div className="flex-1 lg:max-w-[520px]">
             {/* Badge */}
             <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#141413] text-white text-[12px] font-medium tracking-wide mb-5">
               <span className="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse" />
@@ -84,11 +182,14 @@ export default function PreorderPage() {
             </div>
 
             {/* Product title */}
-            <h1 className="text-[32px] lg:text-[40px] font-light leading-tight text-[#141413] mb-2">
+            <h1
+              className="text-[36px] lg:text-[44px] font-light leading-[1.1] text-[#141413] mb-3"
+              style={{ fontFamily: "var(--font-lora)", fontStyle: "normal" }}
+            >
               Bless Ring
             </h1>
-            <p className="text-[16px] lg:text-[17px] font-light leading-[1.6] text-[#3d3d3a] mb-8">
-              A prayer companion that listens when you speak, reflects what you feel, and keeps you close to God — every day.
+            <p className="text-[16px] font-light leading-[1.7] text-[#3d3d3a] mb-6">
+              A gentle companion for prayer, reflection, and spiritual rhythm.
             </p>
 
             {/* ── Pricing ───────────────────────────────────────────────── */}
@@ -100,42 +201,37 @@ export default function PreorderPage() {
               </span>
             </div>
 
-            {/* ── How it works ──────────────────────────────────────────── */}
-            <div className="border border-[#e0dcd5] rounded-xl p-5 mb-8">
-              <p className="text-[14px] font-medium text-[#141413] mb-4">How it works</p>
-              <div className="flex flex-col gap-4">
-                <div className="flex gap-3">
-                  <div className="w-5 h-5 rounded-full bg-[#141413] flex items-center justify-center shrink-0 mt-0.5">
-                    <span className="text-[11px] font-semibold text-white">1</span>
-                  </div>
-                  <div>
-                    <p className="text-[14px] font-medium text-[#141413]">Pay $29 deposit &mdash; lock in $179 early-bird price</p>
-                    <p className="text-[13px] text-[#73726c] leading-[1.5]">Fully refundable if you change your mind.</p>
-                  </div>
+            {/* ── Pricing breakdown ─────────────────────────────────────── */}
+            <div className="bg-white rounded-2xl px-5 py-4 mb-10">
+              <div className="flex justify-between items-baseline py-2 border-b border-[#f0ece6]">
+                <div>
+                  <p className="text-[14px] font-medium text-[#141413]">Today &mdash; $29 deposit</p>
+                  <p className="text-[13px] text-[#73726c]">Fully refundable anytime.</p>
                 </div>
-                <div className="flex gap-3">
-                  <div className="w-5 h-5 rounded-full bg-[#141413] flex items-center justify-center shrink-0 mt-0.5">
-                    <span className="text-[11px] font-semibold text-white">2</span>
-                  </div>
-                  <div>
-                    <p className="text-[14px] font-medium text-[#141413]">May &mdash; free trial ring ships to you</p>
-                    <p className="text-[13px] text-[#73726c] leading-[1.5]">Wear it, try it, share your feedback with us.</p>
-                  </div>
+                <span className="text-[14px] font-medium text-[#141413]">$29</span>
+              </div>
+              <div className="flex justify-between items-baseline py-2 border-b border-[#f0ece6]">
+                <div>
+                  <p className="text-[14px] font-medium text-[#141413]">May &mdash; trial ring ships free</p>
+                  <p className="text-[13px] text-[#73726c]">Try before you commit. Keep it either way.</p>
                 </div>
-                <div className="flex gap-3">
-                  <div className="w-5 h-5 rounded-full bg-[#141413] flex items-center justify-center shrink-0 mt-0.5">
-                    <span className="text-[11px] font-semibold text-white">3</span>
-                  </div>
-                  <div>
-                    <p className="text-[14px] font-medium text-[#141413]">July &mdash; you decide</p>
-                    <p className="text-[13px] text-[#73726c] leading-[1.5]">Love it? Pay $150 and we ship the final ring. Not for you? Full $29 refund &mdash; keep the trial ring.</p>
-                  </div>
+                <span className="text-[14px] font-medium text-[#141413]">$0</span>
+              </div>
+              <div className="flex justify-between items-baseline py-2 border-b border-[#f0ece6]">
+                <div>
+                  <p className="text-[14px] font-medium text-[#141413]">July &mdash; final ring</p>
+                  <p className="text-[13px] text-[#73726c]">Pay $150 or get a full refund.</p>
                 </div>
+                <span className="text-[14px] font-medium text-[#141413]">$150</span>
+              </div>
+              <div className="flex justify-between items-baseline pt-3">
+                <span className="text-[14px] font-semibold text-[#141413]">Total</span>
+                <span className="text-[14px] font-semibold text-[#141413]">$179</span>
               </div>
             </div>
 
             {/* ── Ring size ─────────────────────────────────────────────── */}
-            <div className="mb-8">
+            <div className="mb-10">
               <div className="flex items-center justify-between mb-3">
                 <label className="text-[14px] font-medium text-[#141413]">
                   Ring size
@@ -172,34 +268,17 @@ export default function PreorderPage() {
               className={`w-full h-[56px] rounded-full text-[16px] font-semibold transition-all duration-200 cursor-pointer ${
                 selectedSize
                   ? "bg-[#141413] text-white hover:bg-[#2a2a28]"
-                  : "bg-[#d4d0c8] text-[#9a958c] cursor-not-allowed"
+                  : "bg-[#c8c4bc] text-[#9a958c] cursor-not-allowed"
               }`}
               disabled={!selectedSize}
             >
-              Continue&nbsp;&nbsp;—&nbsp;&nbsp;$29
+              Continue&nbsp;&nbsp;&mdash;&nbsp;&nbsp;$29
             </button>
 
-            {/* Trust signals — mobile only */}
-            <div className="flex flex-col gap-4 mt-10 lg:hidden">
-              <TrustItem
-                icon="shield"
-                title="$29 fully refundable"
-                desc="Change your mind anytime — full refund, no questions."
-              />
-              <TrustItem
-                icon="truck"
-                title="Free trial ring in May"
-                desc="Try before you commit. Keep it either way."
-              />
-              <TrustItem
-                icon="lock"
-                title="Secure payment via Stripe"
-                desc="Your payment details are handled securely."
-              />
-            </div>
           </div>
         </div>
       </div>
+
       {/* ── Size guide modal ──────────────────────────────────────────── */}
       {showSizeGuide && (
         <div
@@ -248,32 +327,3 @@ export default function PreorderPage() {
   );
 }
 
-/* ── Trust signal row ──────────────────────────────────────────────────── */
-
-function TrustItem({ icon, title, desc }: { icon: string; title: string; desc: string }) {
-  return (
-    <div className="flex gap-3">
-      <div className="w-9 h-9 rounded-full bg-[#f0ece6] flex items-center justify-center shrink-0 mt-0.5">
-        {icon === "shield" && (
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#73726c" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
-          </svg>
-        )}
-        {icon === "lock" && (
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#73726c" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-            <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/>
-          </svg>
-        )}
-        {icon === "truck" && (
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#73726c" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-            <rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/>
-          </svg>
-        )}
-      </div>
-      <div>
-        <p className="text-[14px] font-medium text-[#141413]">{title}</p>
-        <p className="text-[13px] text-[#73726c] leading-[1.5]">{desc}</p>
-      </div>
-    </div>
-  );
-}
