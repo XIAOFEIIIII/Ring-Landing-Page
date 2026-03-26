@@ -1,10 +1,15 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { usePathname } from "next/navigation";
+import Link from "next/link";
 
 export default function Header() {
+  const pathname = usePathname();
   const [scrolled, setScrolled]   = useState(false); // past ~40px → frosted bg
   const [pastHero, setPastHero]   = useState(false); // past hero → show preorder
+
+  const hidden = pathname.startsWith("/preorder");
 
   useEffect(() => {
     const onScroll = () => {
@@ -15,6 +20,8 @@ export default function Header() {
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
+
+  if (hidden) return null;
 
   return (
     <header
@@ -60,15 +67,16 @@ export default function Header() {
         </nav>
 
         {/* Preorder — only visible after scrolling past the hero */}
-        <button
-          className={`flex items-center justify-center h-[38px] px-5 rounded-full text-[14px] font-semibold bg-[#141413] text-white hover:bg-[#2a2a28] transition-all duration-500 cursor-pointer ${
+        <Link
+          href="/preorder"
+          className={`flex items-center justify-center h-[38px] px-5 rounded-full text-[14px] font-semibold bg-[#141413] text-white hover:bg-[#2a2a28] transition-all duration-500 cursor-pointer no-underline ${
             pastHero
               ? "opacity-100 translate-y-0"
               : "opacity-0 translate-y-[-6px] pointer-events-none"
           }`}
         >
           Preorder&nbsp;—&nbsp;$29
-        </button>
+        </Link>
       </div>
     </header>
   );

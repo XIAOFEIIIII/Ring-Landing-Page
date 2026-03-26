@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 import FeatureSections from "./components/FeatureSections";
 import DayInLife from "./components/DayInLife";
 import ProductSpecs from "./components/ProductSpecs";
@@ -35,12 +36,13 @@ export default function Home() {
           <p className="text-[16px] font-light leading-[1.6] text-white hero-animate max-w-[280px]" style={{ animationDelay: "240ms" }}>
             A prayer companion that keeps you close to God — every day.
           </p>
-          <button
-            className="flex items-center justify-center h-11 px-4 rounded-full bg-[#141413] text-white text-base font-semibold w-full max-w-[280px] hover:bg-[#2a2a28] transition-colors cursor-pointer hero-animate"
+          <Link
+            href="/preorder"
+            className="flex items-center justify-center h-11 px-4 rounded-full bg-[#141413] text-white text-base font-semibold w-full max-w-[280px] hover:bg-[#2a2a28] transition-colors cursor-pointer hero-animate no-underline"
             style={{ animationDelay: "360ms" }}
           >
             Preorder &nbsp;—&nbsp; $29
-          </button>
+          </Link>
         </div>
       </section>
 
@@ -77,12 +79,13 @@ export default function Home() {
             >
               A prayer companion that keeps you close to God — every day.
             </p>
-            <button
-              className="flex items-center justify-center gap-2 h-11 px-4 rounded-full bg-[#141413] text-white text-base font-semibold w-[230px] hover:bg-[#2a2a28] transition-colors cursor-pointer hero-animate"
+            <Link
+              href="/preorder"
+              className="flex items-center justify-center gap-2 h-11 px-4 rounded-full bg-[#141413] text-white text-base font-semibold w-[230px] hover:bg-[#2a2a28] transition-colors cursor-pointer hero-animate no-underline"
               style={{ animationDelay: "360ms" }}
             >
               Preorder &nbsp;—&nbsp; $29
-            </button>
+            </Link>
           </div>
         </div>
       </section>
@@ -153,9 +156,9 @@ export default function Home() {
         </div>
 
         <div className="flex flex-col items-center" data-animate style={{ transitionDelay: "160ms" }}>
-          <button className="flex items-center justify-center h-[52px] px-8 rounded-full bg-[#141413] text-white text-[16px] font-semibold hover:bg-[#2a2a28] transition-colors cursor-pointer">
+          <Link href="/preorder" className="flex items-center justify-center h-[52px] px-8 rounded-full bg-[#141413] text-white text-[16px] font-semibold hover:bg-[#2a2a28] transition-colors cursor-pointer no-underline">
             Preorder today&nbsp;—&nbsp;$29
-          </button>
+          </Link>
         </div>
       </section>
 
