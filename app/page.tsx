@@ -3,6 +3,7 @@ import Link from "next/link";
 import FeatureSections from "./components/FeatureSections";
 import DayInLife from "./components/DayInLife";
 import ProductSpecs from "./components/ProductSpecs";
+import HeroCTA from "./components/HeroCTA";
 
 // ─── Page ─────────────────────────────────────────────────────────────────────
 
@@ -36,13 +37,10 @@ export default function Home() {
           <p className="text-[16px] font-light leading-[1.6] text-white hero-animate max-w-[280px]" style={{ animationDelay: "240ms" }}>
             A prayer companion that keeps you close to God — every day.
           </p>
-          <Link
-            href="/preorder"
-            className="flex items-center justify-center h-11 px-4 rounded-full bg-[#141413] text-white text-base font-semibold w-full max-w-[280px] hover:bg-[#2a2a28] transition-colors cursor-pointer hero-animate no-underline"
+          <HeroCTA
+            className="w-full max-w-[320px] hero-animate"
             style={{ animationDelay: "360ms" }}
-          >
-            Preorder &nbsp;—&nbsp; $29
-          </Link>
+          />
         </div>
       </section>
 
@@ -79,13 +77,10 @@ export default function Home() {
             >
               A prayer companion that keeps you close to God — every day.
             </p>
-            <Link
-              href="/preorder"
-              className="flex items-center justify-center gap-2 h-11 px-4 rounded-full bg-[#141413] text-white text-base font-semibold w-[230px] hover:bg-[#2a2a28] transition-colors cursor-pointer hero-animate no-underline"
+            <HeroCTA
+              className="w-[400px] hero-animate"
               style={{ animationDelay: "360ms" }}
-            >
-              Preorder &nbsp;—&nbsp; $29
-            </Link>
+            />
           </div>
         </div>
       </section>

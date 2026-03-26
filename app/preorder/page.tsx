@@ -1,7 +1,7 @@
 "use client";
 
-import { useState, useCallback, useEffect, useRef } from "react";
-import { useRouter } from "next/navigation";
+import { useState, useCallback, useEffect, useRef, Suspense } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -29,8 +29,10 @@ const SIZE_GUIDE = [
   { size: 10, circumference: "up to 62 mm", fits: "Men, broader fingers" },
 ];
 
-export default function PreorderPage() {
+function PreorderContent() {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const emailFromHome = searchParams.get("email") || "";
   const [selectedSize, setSelectedSize] = useState<number | null>(null);
   const [showSizeGuide, setShowSizeGuide] = useState(false);
   const [currentSlide, setCurrentSlide] = useState(0);
@@ -83,7 +85,7 @@ export default function PreorderPage() {
         <div className="flex flex-col lg:flex-row lg:gap-20 lg:justify-center">
           {/* ── Left: Image carousel + trust signals ───────────────────── */}
           <div className="flex-1 lg:max-w-[520px]">
-            <div className="relative w-full aspect-[5/4] rounded-2xl overflow-hidden bg-[#f0ece6]">
+            <div className="relative w-full aspect-square rounded-2xl overflow-hidden bg-[#f0ece6]">
               {CAROUSEL_SLIDES.map((slide, i) =>
                 slide.type === "image" ? (
                   <Image
@@ -229,6 +231,9 @@ export default function PreorderPage() {
                   </button>
                 ))}
               </div>
+              <p className="text-[13px] text-[#73726c] leading-[1.6] mt-3">
+                Between sizes? Size up for comfort.<br/>Need a different fit? One free exchange included.
+              </p>
             </div>
 
             {/* ── How it works timeline ────────────────────────────────── */}
@@ -268,7 +273,7 @@ export default function PreorderPage() {
             {/* ── CTA ───────────────────────────────────────────────────── */}
             <button
               onClick={() => {
-                router.push(`/preorder/checkout?size=${selectedSize}`);
+                router.push(`/preorder/checkout?size=${selectedSize}&email=${encodeURIComponent(emailFromHome)}`);
               }}
               className={`w-full h-[56px] rounded-full text-[16px] font-semibold transition-all duration-200 cursor-pointer ${
                 selectedSize
@@ -307,6 +312,10 @@ export default function PreorderPage() {
               </button>
             </div>
 
+            <p className="text-[13px] text-[#73726c] leading-[1.6] mb-6">
+              We recommend wearing on your index finger. Already have a ring for that finger? Start there. Otherwise, measure around your knuckle.
+            </p>
+
             {/* Table header */}
             <div className="grid grid-cols-[60px_1fr_1fr] gap-x-4 pb-3 border-b border-[#e0dcd5]">
               <span className="text-[13px] font-medium text-[#141413]">Size</span>
@@ -329,6 +338,14 @@ export default function PreorderPage() {
         </div>
       )}
     </main>
+  );
+}
+
+export default function PreorderPage() {
+  return (
+    <Suspense>
+      <PreorderContent />
+    </Suspense>
   );
 }
 

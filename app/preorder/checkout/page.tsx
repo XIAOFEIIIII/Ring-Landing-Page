@@ -15,8 +15,9 @@ const US_STATES = [
 function CheckoutForm() {
   const searchParams = useSearchParams();
   const size = searchParams.get("size") || "";
+  const prefillEmail = searchParams.get("email") || "";
 
-  const [email, setEmail] = useState("");
+  const [email, setEmail] = useState(prefillEmail);
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [street, setStreet] = useState("");
