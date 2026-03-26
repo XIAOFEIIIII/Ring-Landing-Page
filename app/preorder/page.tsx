@@ -236,7 +236,7 @@ function PreorderContent() {
                 Between sizes? Size up for comfort.<br/>Need a different fit? One free exchange included.
               </p>
               {sizeHint && !selectedSize && (
-                <p className="text-[13px] text-[#3d3d3a] mt-2">Please select a size to continue.</p>
+                <p className="text-[13px] text-red-500 mt-2">Please select a size to continue.</p>
               )}
             </div>
 
