@@ -34,6 +34,7 @@ function PreorderContent() {
   const searchParams = useSearchParams();
   const emailFromHome = searchParams.get("email") || "";
   const [selectedSize, setSelectedSize] = useState<number | null>(null);
+  const [sizeHint, setSizeHint] = useState(false);
   const [showSizeGuide, setShowSizeGuide] = useState(false);
   const [currentSlide, setCurrentSlide] = useState(0);
   const videoRefs = useRef<(HTMLVideoElement | null)[]>([]);
@@ -220,7 +221,7 @@ function PreorderContent() {
                 {RING_SIZES.map((size) => (
                   <button
                     key={size}
-                    onClick={() => setSelectedSize(size)}
+                    onClick={() => { setSelectedSize(size); setSizeHint(false); }}
                     className={`w-[48px] h-[48px] rounded-full border text-[15px] font-medium transition-all duration-200 cursor-pointer ${
                       selectedSize === size
                         ? "bg-[#141413] text-white border-[#141413]"
@@ -234,6 +235,9 @@ function PreorderContent() {
               <p className="text-[13px] text-[#73726c] leading-[1.6] mt-3">
                 Between sizes? Size up for comfort.<br/>Need a different fit? One free exchange included.
               </p>
+              {sizeHint && !selectedSize && (
+                <p className="text-[13px] text-[#3d3d3a] mt-2">Please select a size to continue.</p>
+              )}
             </div>
 
             {/* ── How it works timeline ────────────────────────────────── */}
@@ -273,19 +277,102 @@ function PreorderContent() {
             {/* ── CTA ───────────────────────────────────────────────────── */}
             <button
               onClick={() => {
+                if (!selectedSize) {
+                  setSizeHint(true);
+                  return;
+                }
                 router.push(`/preorder/checkout?size=${selectedSize}&email=${encodeURIComponent(emailFromHome)}`);
               }}
-              className={`w-full h-[56px] rounded-full text-[16px] font-semibold transition-all duration-200 cursor-pointer ${
-                selectedSize
-                  ? "bg-[#141413] text-white hover:bg-[#2a2a28]"
-                  : "bg-[#c8c4bc] text-[#9a958c] cursor-not-allowed"
-              }`}
-              disabled={!selectedSize}
+              className="w-full h-[56px] rounded-full text-[16px] font-semibold bg-[#141413] text-white hover:bg-[#2a2a28] transition-all duration-200 cursor-pointer"
             >
               Continue&nbsp;&nbsp;&mdash;&nbsp;&nbsp;$29
             </button>
 
           </div>
+        </div>
+
+        {/* ── Features ──────────────────────────────────────────────────── */}
+        <div className="mt-16 lg:mt-24 flex flex-col lg:flex-row lg:gap-16 lg:justify-center">
+          {/* Left — image */}
+          <div className="lg:max-w-[520px] flex-1 mb-8 lg:mb-0">
+            <div className="relative w-full aspect-square rounded-2xl overflow-hidden">
+              <Image
+                src="/images/feature-water.jpg"
+                alt="Bless Ring on hand touching water"
+                fill
+                className="object-cover"
+              />
+            </div>
+          </div>
+
+          {/* Right — description + feature grid */}
+          <div className="flex-1 lg:max-w-[520px] flex flex-col justify-center">
+            <p className="text-[16px] font-light leading-[1.7] text-[#3d3d3a] mb-8">
+              Tap your ring to capture a prayer, a thought, or a moment of gratitude — in your own voice, whenever it comes to you. Throughout the day, Bless Ring gently calls you back with personalized reflections drawn from scripture and your own words. Over time, it learns your rhythm, tracks how you&apos;re feeling, and helps you see how your faith is growing — quietly, naturally, from a ring on your finger.
+            </p>
+
+            <div className="grid grid-cols-2 gap-x-8 gap-y-5">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-full bg-[#f0ece6] flex items-center justify-center shrink-0">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#3d3d3a" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/>
+                  </svg>
+                </div>
+                <span className="text-[14px] font-medium text-[#141413]">Voice Capture</span>
+              </div>
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-full bg-[#f0ece6] flex items-center justify-center shrink-0">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#3d3d3a" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round">
+                    <circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/>
+                  </svg>
+                </div>
+                <span className="text-[14px] font-medium text-[#141413]">Daily Rhythm</span>
+              </div>
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-full bg-[#f0ece6] flex items-center justify-center shrink-0">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#3d3d3a" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/><path d="M12 6l2 3h-4l2-3z" fill="#3d3d3a" stroke="none"/>
+                  </svg>
+                </div>
+                <span className="text-[14px] font-medium text-[#141413]">Personalized Devotional</span>
+              </div>
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-full bg-[#f0ece6] flex items-center justify-center shrink-0">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#3d3d3a" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M22 12h-4l-3 9L9 3l-3 9H2"/>
+                  </svg>
+                </div>
+                <span className="text-[14px] font-medium text-[#141413]">Emotion Tracking</span>
+              </div>
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-full bg-[#f0ece6] flex items-center justify-center shrink-0">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#3d3d3a" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/>
+                  </svg>
+                </div>
+                <span className="text-[14px] font-medium text-[#141413]">Gentle Reminders</span>
+              </div>
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-full bg-[#f0ece6] flex items-center justify-center shrink-0">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#3d3d3a" strokeWidth="1.3" strokeLinecap="round" strokeLinejoin="round">
+                    <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+                  </svg>
+                </div>
+                <span className="text-[14px] font-medium text-[#141413]">Private &amp; Secure</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* ── FAQ ───────────────────────────────────────────────────────── */}
+        <div className="mt-16 lg:mt-24 max-w-[720px] mx-auto">
+          <h2
+            className="text-[24px] lg:text-[28px] font-light text-[#141413] mb-8 text-center"
+            style={{ fontFamily: "var(--font-lora)", fontStyle: "italic" }}
+          >
+            Frequently asked
+          </h2>
+          <FAQ />
         </div>
       </div>
 
@@ -338,6 +425,71 @@ function PreorderContent() {
         </div>
       )}
     </main>
+  );
+}
+
+const FAQ_ITEMS = [
+  {
+    q: "What exactly do I get for $29?",
+    a: "Your $29 deposit locks in the early-bird price of $179 (retail $229). In May, we ship you a free trial ring to wear and test. The deposit is fully refundable at any time — no questions asked.",
+  },
+  {
+    q: "What's the difference between the trial ring and the official ring?",
+    a: "Same hardware, same sensors. The trial ring is an early unit we send ahead of launch so you can try it before committing.",
+  },
+  {
+    q: "Who can see my recordings?",
+    a: "Your audio is stored locally on your device. If you choose to transcribe a recording, it\u2019s encrypted before being sent to our servers, processed, and deleted immediately after \u2014 we never store it in the cloud. No one at Bless Ring has access to your data.",
+  },
+  {
+    q: "How does the ring connect to the app?",
+    a: "Via Bluetooth. Open the app, hold the ring near your phone, and follow the steps — takes under two minutes.",
+  },
+  {
+    q: "Is the ring waterproof?",
+    a: "The Bless Ring is water-resistant for everyday use — washing hands, showering. Avoid prolonged submersion.",
+  },
+  {
+    q: "What if the size doesn't fit?",
+    a: "We offer a one-time free size exchange. Just reach out via our support page.",
+  },
+  {
+    q: "What if I decide not to purchase in July?",
+    a: "We'll refund your $29 in full, no questions asked. The trial ring is yours to keep.",
+  },
+];
+
+function FAQ() {
+  const [open, setOpen] = useState<number | null>(0);
+  return (
+    <div className="flex flex-col">
+      {FAQ_ITEMS.map((item, i) => (
+        <div key={i} className="border-b border-[#e8e4dd]">
+          <button
+            onClick={() => setOpen(open === i ? null : i)}
+            className="w-full flex items-center justify-between py-5 text-left cursor-pointer"
+          >
+            <span className="text-[15px] font-medium text-[#141413] pr-4">{item.q}</span>
+            <svg
+              width="16"
+              height="16"
+              viewBox="0 0 16 16"
+              fill="none"
+              className={`shrink-0 transition-transform duration-300 ${open === i ? "rotate-45" : ""}`}
+            >
+              <path d="M8 3v10M3 8h10" stroke="#73726c" strokeWidth="1.5" strokeLinecap="round" />
+            </svg>
+          </button>
+          <div
+            className={`overflow-hidden transition-all duration-300 ${
+              open === i ? "max-h-[200px] pb-5" : "max-h-0"
+            }`}
+          >
+            <p className="text-[14px] text-[#73726c] leading-[1.6] pr-8">{item.a}</p>
+          </div>
+        </div>
+      ))}
+    </div>
   );
 }
 

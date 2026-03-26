@@ -25,9 +25,9 @@ export default function Home() {
         {/* Headline — top */}
         <div className="relative z-10 pt-28 px-6 text-center">
           <h1 className="text-[34px] font-light leading-tight text-white hero-animate" style={{ animationDelay: "120ms" }}>
-            Catch what your heart{" "}
+            Stay close to God.<br/>
             <em className="not-italic font-normal" style={{ fontFamily: "var(--font-lora)", fontStyle: "italic" }}>
-              Whispers.
+              Every single day.
             </em>
           </h1>
         </div>
@@ -35,7 +35,7 @@ export default function Home() {
         {/* Body + CTA — bottom */}
         <div className="absolute bottom-0 left-0 right-0 z-10 px-6 pb-12 flex flex-col items-center gap-5 text-center">
           <p className="text-[16px] font-light leading-[1.6] text-white hero-animate max-w-[280px]" style={{ animationDelay: "240ms" }}>
-            A prayer companion that keeps you close to God — every day.
+            A gentle companion for prayer, reflection, and spiritual rhythm.
           </p>
           <HeroCTA
             className="w-full max-w-[320px] hero-animate"
@@ -63,19 +63,19 @@ export default function Home() {
               className="text-[68px] font-light leading-tight max-w-[900px] hero-animate"
               style={{ animationDelay: "120ms" }}
             >
-              Catch what your heart{" "}
+              Stay close to God.<br/>
               <em
                 className="not-italic font-normal"
                 style={{ fontFamily: "var(--font-lora)", fontStyle: "italic" }}
               >
-                Whispers.
+                Every single day.
               </em>
             </h1>
             <p
               className="text-[18px] font-light leading-[1.6] text-white hero-animate max-w-[274px]"
               style={{ animationDelay: "240ms" }}
             >
-              A prayer companion that keeps you close to God — every day.
+              A gentle companion for prayer, reflection, and spiritual rhythm.
             </p>
             <HeroCTA
               className="w-[400px] hero-animate"
