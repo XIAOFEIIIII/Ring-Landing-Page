@@ -309,36 +309,34 @@ function CheckoutForm() {
               {/* Pricing */}
               <div className="flex flex-col gap-3 py-5 border-b border-[#f0ece6]">
                 <div className="flex justify-between">
-                  <span className="text-[14px] text-[#3d3d3a]">Due today (refundable)</span>
-                  <span className="text-[14px] font-medium text-[#141413]">$29</span>
+                  <div>
+                    <span className="text-[14px] text-[#3d3d3a]">Pre-order deposit</span>
+                    <p className="text-[12px] text-[#73726c]">Fully refundable</p>
+                  </div>
+                  <span className="text-[14px] font-semibold text-[#141413]">$29</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-[14px] text-[#3d3d3a]">July &mdash; final ring</span>
-                  <span className="text-[14px] text-[#3d3d3a]">$150</span>
+                  <div>
+                    <span className="text-[14px] text-[#3d3d3a]">May &mdash; trial ring</span>
+                    <p className="text-[12px] text-[#73726c]">Estimated shipping from May 1. Yours to keep.</p>
+                  </div>
+                  <span className="text-[14px] text-[#b5b0a6]">$0</span>
+                </div>
+                <div className="flex justify-between">
+                  <div>
+                    <span className="text-[14px] text-[#3d3d3a]">July &mdash; final ring</span>
+                    <p className="text-[12px] text-[#73726c]">Only if you decide to keep it</p>
+                  </div>
+                  <span className="text-[14px] text-[#b5b0a6]">$150</span>
                 </div>
               </div>
-              <div className="flex justify-between py-4">
+              <div className="flex justify-between py-4 border-b border-[#f0ece6]">
                 <span className="text-[15px] font-medium text-[#141413]">Total</span>
                 <span className="text-[15px] font-medium text-[#141413]">$179</span>
               </div>
-            </div>
-
-            {/* What happens next */}
-            <div className="mt-8 lg:mt-10">
-              <p className="text-[14px] font-medium text-[#141413] mb-4">What happens next</p>
-              <div className="flex flex-col gap-5">
-                <TimelineStep
-                  label="Now"
-                  text="$29 deposit locks your early-bird price. Fully refundable."
-                />
-                <TimelineStep
-                  label="May"
-                  text="Free trial ring ships to you — wear it, try it out."
-                />
-                <TimelineStep
-                  label="July"
-                  text="Love it? Pay $150 for the final ring. Not for you? Full refund — keep the trial."
-                />
+              <div className="flex justify-between items-baseline py-4">
+                <span className="text-[17px] font-semibold text-[#141413]">Due today</span>
+                <span className="text-[20px] font-semibold text-[#141413]">$29</span>
               </div>
             </div>
 
@@ -355,19 +353,6 @@ function CheckoutForm() {
         </div>
       </div>
     </main>
-  );
-}
-
-/* ── Timeline step ──────────────────────────────────────────────────────── */
-
-function TimelineStep({ label, text }: { label: string; text: string }) {
-  return (
-    <div className="flex gap-3.5">
-      <div className="w-8 h-8 rounded-full bg-white flex items-center justify-center shrink-0 mt-0.5 border border-[#e0dcd5]">
-        <span className="text-[11px] font-semibold text-[#73726c]">{label}</span>
-      </div>
-      <p className="text-[14px] text-[#3d3d3a] leading-[1.6] pt-1">{text}</p>
-    </div>
   );
 }
 

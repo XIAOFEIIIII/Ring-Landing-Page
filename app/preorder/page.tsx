@@ -194,44 +194,15 @@ export default function PreorderPage() {
 
             {/* ── Pricing ───────────────────────────────────────────────── */}
             <div className="flex items-baseline gap-3 mb-8">
-              <span className="text-[36px] font-medium text-[#141413]">$179</span>
-              <span className="text-[20px] text-[#73726c] line-through">$229</span>
+              <span className="text-[28px] font-medium text-[#141413]">$179</span>
+              <span className="text-[17px] text-[#73726c] line-through">$229</span>
               <span className="text-[14px] font-medium text-[#141413] bg-[#e8e4dd] px-2 py-0.5 rounded">
                 Save $50
               </span>
             </div>
 
-            {/* ── Pricing breakdown ─────────────────────────────────────── */}
-            <div className="bg-white rounded-2xl px-5 py-4 mb-10">
-              <div className="flex justify-between items-baseline py-2 border-b border-[#f0ece6]">
-                <div>
-                  <p className="text-[14px] font-medium text-[#141413]">Today &mdash; $29 deposit</p>
-                  <p className="text-[13px] text-[#73726c]">Fully refundable anytime.</p>
-                </div>
-                <span className="text-[14px] font-medium text-[#141413]">$29</span>
-              </div>
-              <div className="flex justify-between items-baseline py-2 border-b border-[#f0ece6]">
-                <div>
-                  <p className="text-[14px] font-medium text-[#141413]">May &mdash; trial ring ships free</p>
-                  <p className="text-[13px] text-[#73726c]">Try before you commit. Keep it either way.</p>
-                </div>
-                <span className="text-[14px] font-medium text-[#141413]">$0</span>
-              </div>
-              <div className="flex justify-between items-baseline py-2 border-b border-[#f0ece6]">
-                <div>
-                  <p className="text-[14px] font-medium text-[#141413]">July &mdash; final ring</p>
-                  <p className="text-[13px] text-[#73726c]">Pay $150 or get a full refund.</p>
-                </div>
-                <span className="text-[14px] font-medium text-[#141413]">$150</span>
-              </div>
-              <div className="flex justify-between items-baseline pt-3">
-                <span className="text-[14px] font-semibold text-[#141413]">Total</span>
-                <span className="text-[14px] font-semibold text-[#141413]">$179</span>
-              </div>
-            </div>
-
             {/* ── Ring size ─────────────────────────────────────────────── */}
-            <div className="mb-10">
+            <div className="mb-8">
               <div className="flex items-center justify-between mb-3">
                 <label className="text-[14px] font-medium text-[#141413]">
                   Ring size
@@ -257,6 +228,40 @@ export default function PreorderPage() {
                     {size}
                   </button>
                 ))}
+              </div>
+            </div>
+
+            {/* ── How it works timeline ────────────────────────────────── */}
+            <div className="mb-10">
+              <p className="text-[15px] font-medium text-[#141413] mb-5">How it works</p>
+              <div className="flex flex-col gap-5">
+                <div className="flex gap-4">
+                  <div className="w-10 h-10 rounded-full bg-white flex items-center justify-center shrink-0">
+                    <span className="text-[12px] font-semibold text-[#141413]">Now</span>
+                  </div>
+                  <div className="pt-1">
+                    <p className="text-[14px] font-medium text-[#141413]">$29 deposit</p>
+                    <p className="text-[13px] text-[#73726c]">Fully refundable anytime.</p>
+                  </div>
+                </div>
+                <div className="flex gap-4">
+                  <div className="w-10 h-10 rounded-full bg-white flex items-center justify-center shrink-0">
+                    <span className="text-[12px] font-semibold text-[#141413]">May</span>
+                  </div>
+                  <div className="pt-1">
+                    <p className="text-[14px] font-medium text-[#141413]">Trial ring ships free from May 1</p>
+                    <p className="text-[13px] text-[#73726c]">Try before you commit. Keep it either way.</p>
+                  </div>
+                </div>
+                <div className="flex gap-4">
+                  <div className="w-10 h-10 rounded-full bg-white flex items-center justify-center shrink-0">
+                    <span className="text-[12px] font-semibold text-[#141413]">Jul</span>
+                  </div>
+                  <div className="pt-1">
+                    <p className="text-[14px] font-medium text-[#141413]">You decide</p>
+                    <p className="text-[13px] text-[#73726c]">Pay $150 for the final ring, or get a full refund.</p>
+                  </div>
+                </div>
               </div>
             </div>
 
